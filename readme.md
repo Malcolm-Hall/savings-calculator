@@ -18,9 +18,6 @@ This free investment calculator considers the initial and ending balances, retur
 ## Libraries in Use
 1. https://mathjs.org/
 2. https://katex.org/
-3. https://github.com/aFarkas/lazysizes
-4. https://github.com/RobinHerbots/Inputmask
-5. https://air-datepicker.com/
 6. https://www.chartjs.org/
 
 ## Run python3 -m http.server 8080
