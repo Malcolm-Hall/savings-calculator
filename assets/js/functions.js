@@ -47,17 +47,6 @@ window.toggleRelatedInputs = function(element, id, action){
 	});
 }
 
-window.switch_data_tab = function(owner, index, value){
-	$$('[data-tab]')?.forEach(element => {
-		if(element.getAttribute('data-tab') == index) {
-			element.classList.add('tab--active');
-			owner.classList.add('tab--active');
-		} else {
-			element.classList.remove('tab--active');
-		}
-	});
-}
-
 window.isMetricSystem = function() {
 	return $('.system-switcher').classList.contains('system-switcher--active');
 }
@@ -442,27 +431,6 @@ window.updateDate = function(element){
 		date_m.value = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
 	}
 };
-
-window.switchTab = function (event, index) {
-	if(index !== undefined && index !== null) {
-		if(event.target.classList.contains('tab-item'))	 {
-			$$(`.${event.target.classList[0]}`).forEach((tab, i) => {
-				if(index === i) {
-					tab.classList.add('tab-item--active')
-				} else {
-					tab.classList.remove('tab-item--active')
-				}
-			})
-		}
-	}
-	$$(`[data-tab]`).forEach(element => {
-		if(element.dataset.tab == event.selectedIndex || element.dataset.tab == index) {
-			element.classList.add('tab--active')
-		} else {
-			element.classList.remove('tab--active')
-		}
-	})
-}
 
 window.setMaxLength = function(element, maxLength) {
 	if(getComputedStyle(element).getPropertyValue('--fontStep') !== '') {

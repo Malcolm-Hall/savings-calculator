@@ -1,6 +1,5 @@
 // CHART_DONUT_BIG CHART_LOAN
 'use strict'
-let switchTheme = null;
 
 import("./lib/chartjs/chart.js").then((e) => {
 	let Chart = e.Chart
@@ -105,45 +104,6 @@ import("./lib/chartjs/chart.js").then((e) => {
 		options: options,
 		plugins: [customDataLabels],
 	});
-
-	let switchThemeDonut = function(theme) {
-		donutBig.destroy()
-
-		const customDataLabels = {
-			id: 'customDataLabel',
-			afterDatasetDraw(chart, args, pluginOptions) {
-				const {
-					ctx,
-					data,
-					chartArea: { top, bottom, left, right, width, height },
-				} = chart;
-				ctx.save();
-
-				data.datasets[0].data.forEach((datapoint, index) => {
-					const { x, y } = chart.getDatasetMeta(0).data[index].tooltipPosition();
-
-					ctx.textAlign = 'center';
-					ctx.font = '14px Inter';
-					ctx.fillStyle = '#fff';
-					ctx.textBaseline = 'middle';
-					let toolTipText = datapoint != '0' ? datapoint + '%' : '';
-					ctx.fillText(toolTipText, x, y);
-				});
-			},
-		};
-
-		donutBig = new Chart(document.getElementById('chartDonutBig'), {
-			type: 'doughnut',
-			data: {
-				datasets: data,
-			},
-			options: options,
-			plugins: [customDataLabels],
-		});
-
-		donutBig.data.datasets[0].backgroundColor = [colors[theme].purple, colors[theme].sky, colors[theme].yellow];
-		donutBig.update()
-	}
 
 	// LOAN CHART
 
@@ -372,26 +332,6 @@ import("./lib/chartjs/chart.js").then((e) => {
 		},
 	});
 
-	let switchThemeLoan = function(theme) {
-		yellowGradient.addColorStop(0, colors[theme].yellowGradientStart);
-		yellowGradient.addColorStop(1, colors[theme].yellowGradientStop);
-		purpleGradient.addColorStop(0, colors[theme].purpleGradientStart);
-		purpleGradient.addColorStop(1, colors[theme].purpleGradientStop);
-		chartLoan.data.datasets[1].backgroundColor = yellowGradient;
-		chartLoan.data.datasets[1].borderColor = colors[theme].yellow;
-		chartLoan.data.datasets[0].backgroundColor = purpleGradient;
-		chartLoan.data.datasets[0].borderColor = colors[theme].purple;
-		chartLoan.data.datasets[2].borderColor = colors[theme].sky;
-		chartLoan.data.datasets[2].backgroundColor = skyGradient;
-		chartLoan.options.scales.y.grid.color = colors[theme].gridColor;
-		chartLoan.options.scales.x.grid.color = colors[theme].gridColor;
-		chartLoan.options.scales.y.ticks.color = colors[theme].gridColor;
-		chartLoan.options.scales.x.ticks.color = colors[theme].gridColor;
-		chartLoan.options.scales.y.border.color = colors[theme].gridColor;
-		chartLoan.options.scales.x.border.color = colors[theme].gridColor;
-		chartLoan.update()
-	}
-
 	window.changeChartData = function(values, values_two) {
 		donutBig.data.datasets[0].data = values
 		donutBig.data.datasets[0].labels = values.map(value => `${value}%`)
@@ -403,8 +343,4 @@ import("./lib/chartjs/chart.js").then((e) => {
 		chartLoan.data.datasets[2].data = values_two[3]
 		chartLoan.update()
 	}
-
-
-	switchTheme = [switchThemeLoan, switchThemeDonut]
-
 })
