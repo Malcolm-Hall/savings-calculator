@@ -6,51 +6,30 @@ import("./lib/chartjs/chart.js").then((e) => {
 	let registerables = e.registerables
 	Chart.register(...registerables)
 
-	const theme = localStorage.getItem('theme') !== 'system' ? localStorage.getItem('theme') : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 	const colors = {
-		light: {
-			purple: '#A78BFA',
-			yellow: '#FBBF24',
-			sky: '#7DD3FC',
-			blue: '#1D4ED8',
-			red: '#F87171',
-			textColor: '#6B7280',
-			yellowGradientStart: 'rgba(250, 219, 139, 0.33)',
-			purpleGradientStart: 'rgba(104, 56, 248, 0.16)',
-			skyGradientStart: 'rgba(56, 187, 248, 0.16)',
-			tealGradientStart: 'rgba(56, 248, 222, 0.16)',
-			yellowGradientStop: 'rgba(250, 219, 139, 0)',
-			purpleGradientStop: 'rgba(104, 56, 248, 0)',
-			skyGradientStop: 'rgba(56, 248, 222, 0.16)',
-			gridColor: '#DBEAFE',
-			tooltipBackground: '#fff',
-			fractionColor: '#EDE9FE',
-		},
-		dark: {
-			purple: '#7C3AED',
-			yellow: '#D97706',
-			sky: '#0284C7',
-			blue: '#101E47',
-			red: '#F87171',
-			textColor: '#fff',
-			yellowGradientStart: 'rgba(146, 123, 67, 0.23)',
-			purpleGradientStart: 'rgba(78, 55, 144, 0.11)',
-			skyGradientStart: 'rgba(56, 187, 248, 0.16)',
-			tealGradientStart: 'rgba(56, 248, 222, 0.16)',
-			yellowGradientStop: 'rgba(250, 219, 139, 0)',
-			purpleGradientStop: 'rgba(104, 56, 248, 0)',
-			skyGradientStop: 'rgba(56, 248, 222, 0.16)',
-			gridColor: '#162B64',
-			tooltipBackground: '#1C3782',
-			fractionColor: '#41467D',
-		},
+		purple: '#A78BFA',
+		yellow: '#FBBF24',
+		sky: '#7DD3FC',
+		blue: '#1D4ED8',
+		red: '#F87171',
+		textColor: '#6B7280',
+		yellowGradientStart: 'rgba(250, 219, 139, 0.33)',
+		purpleGradientStart: 'rgba(104, 56, 248, 0.16)',
+		skyGradientStart: 'rgba(56, 187, 248, 0.16)',
+		tealGradientStart: 'rgba(56, 248, 222, 0.16)',
+		yellowGradientStop: 'rgba(250, 219, 139, 0)',
+		purpleGradientStop: 'rgba(104, 56, 248, 0)',
+		skyGradientStop: 'rgba(56, 248, 222, 0.16)',
+		gridColor: '#DBEAFE',
+		tooltipBackground: '#fff',
+		fractionColor: '#EDE9FE',
 	};
 
 	let data = [
 		{
 			data: [48, 19, 34],
 			labels: ['48%', '19%', '34%'],
-			backgroundColor: [colors[theme].yellow, colors[theme].purple, colors[theme].sky],
+			backgroundColor: [colors.yellow, colors.purple, colors.sky],
 			borderColor: '#DDD6FE',
 			borderWidth: 0,
 		},
@@ -110,17 +89,17 @@ import("./lib/chartjs/chart.js").then((e) => {
 	let ctx = document.getElementById('chartLoan').getContext('2d');
 
 	let yellowGradient = ctx.createLinearGradient(0, 0, 0, 1024);
-	yellowGradient.addColorStop(0, colors[theme].yellowGradientStart);
-	yellowGradient.addColorStop(1, colors[theme].yellowGradientStop);
+	yellowGradient.addColorStop(0, colors.yellowGradientStart);
+	yellowGradient.addColorStop(1, colors.yellowGradientStop);
 
 	let purpleGradient = ctx.createLinearGradient(0, 0, 0, 1024);
-	purpleGradient.addColorStop(0, colors[theme].purpleGradientStart);
-	purpleGradient.addColorStop(1, colors[theme].purpleGradientStop);
+	purpleGradient.addColorStop(0, colors.purpleGradientStart);
+	purpleGradient.addColorStop(1, colors.purpleGradientStop);
 
 
 	let skyGradient = ctx.createLinearGradient(0, 0, 0, 1024);
-	skyGradient.addColorStop(0, colors[theme].skyGradientStart);
-	skyGradient.addColorStop(1, colors[theme].skyGradientStop);
+	skyGradient.addColorStop(0, colors.skyGradientStart);
+	skyGradient.addColorStop(1, colors.skyGradientStop);
 
 	let tooltip = {
 		enabled: false,
@@ -215,7 +194,7 @@ import("./lib/chartjs/chart.js").then((e) => {
 				pointHoverBorderWidth: 2,
 				pointHoverRadius: 6,
 				pointHoverBorderColor: '#5045E5',
-				borderColor: colors[theme].purple,
+				borderColor: colors.purple,
 				backgroundColor: purpleGradient,
 				fill: true,
 			},
@@ -244,7 +223,7 @@ import("./lib/chartjs/chart.js").then((e) => {
 				pointHoverBorderWidth: 2,
 				pointHoverRadius: 6,
 				pointHoverBorderColor: '#5045E5',
-				borderColor: colors[theme].yellow,
+				borderColor: colors.yellow,
 				backgroundColor: yellowGradient,
 				fill: true,
 			},
@@ -273,7 +252,7 @@ import("./lib/chartjs/chart.js").then((e) => {
 				pointHoverBorderWidth: 2,
 				pointHoverRadius: 6,
 				pointHoverBorderColor: '#5045E5',
-				borderColor: colors[theme].sky,
+				borderColor: colors.sky,
 				backgroundColor: skyGradient,
 				fill: true,
 			},
@@ -304,28 +283,28 @@ import("./lib/chartjs/chart.js").then((e) => {
 				y: {
 					grid: {
 						tickLength: 0,
-						color: colors[theme].gridColor,
+						color: colors.gridColor,
 					},
 					ticks: {
 						display: false,
 						stepSize: 1,
 					},
 					border: {
-						color: colors[theme].gridColor,
+						color: colors.gridColor,
 					},
 				},
 				x: {
 					border: {
-						color: colors[theme].gridColor,
+						color: colors.gridColor,
 					},
 					ticks: {
 						display: false,
-						color: colors[theme].gridColor,
+						color: colors.gridColor,
 						stepSize: 1,
 					},
 					grid: {
 						tickLength: 0,
-						color: colors[theme].gridColor,
+						color: colors.gridColor,
 					},
 				},
 			},

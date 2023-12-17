@@ -4,7 +4,7 @@ window._ = document.getElementById.bind(document);
 window.$ = document.querySelector.bind(document);
 window.$$ = document.querySelectorAll.bind(document);
 
-console.log('Script is OK! ༼ つ ◕_◕ ༽つ')
+console.log('Script is OK! ༼ つ ◕_◕ ༽つ');
 
 // DIALOG TABLE
 if(document.querySelector('.result-table__dialog')) {
