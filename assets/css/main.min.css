@@ -2454,11 +2454,6 @@ html[dir=rtl] .result-table__wrapper:last-child table tbody:last-child tr:last-c
 .calculator-settings {
   width: 100%;
 }
-@media only screen and (min-width: 1024px) {
-  .calculator-settings {
-    max-width: 336px;
-  }
-}
 
 .calculator-setting {
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.0588235294), 0px 1px 3px 0px rgba(0, 0, 0, 0.1019607843);

@@ -17,7 +17,5 @@ This free investment calculator considers the initial and ending balances, retur
 
 ## Libraries in Use
 1. https://mathjs.org/
-2. https://katex.org/
 6. https://www.chartjs.org/
 
-## Run python3 -m http.server 8080
