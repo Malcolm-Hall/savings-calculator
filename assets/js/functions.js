@@ -91,29 +91,6 @@ window.output = {
 	}
 };
 
-// check erroneous result of expression (or if it's not string - check itself)
-// usefull in cases when erroneous values of input fields are unknown
-window.calc = (expression,scope,resultType) => {
-	let result = expression;
-	scope = scope || {};
-	if(typeof expression == 'string'){
-		result = math.evaluate(expression,scope); // can throw error as well
-	}
-	let valid = true;
-	switch(resultType){
-		case 'positive': valid = result > 0;
-	}
-	if(isNaN(result)||result.im||!valid) {
-		const args = Object.keys(scope).map(arg=>arg+'='+scope[arg]);
-		throw new Error(
-			`result of expression ${expression} is ${result}.` 
-			+ (resultType ? `<br/>Should be ${resultType}.`:'')
-			+ (args.length != 0 ? `<br/>Args: ${args.join(', ')}.`:'')
-		);
-	}
-	return result;
-};
-
 // allows to show accurate results with fixed precision/length (instead of using BigNumber) 
 window.format = number => math.format(number,{precision:7})
 
