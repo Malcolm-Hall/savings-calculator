@@ -1,37 +1,37 @@
 function calculate() {
     const calcType = input.get('loan_type').index().val();
-
-    const pv = input.get('starting_amount').gt(0).val();
-    const years = input.get('after').gt(0).val();
-    const rate = input.get('return_rate').gt(0).val();
-    const compound = input.get('compound').index().val();
-    const contribution = +input.get('additional_contribution').val();
     const contributionFrequency = input.get('each').raw();
     const contributionTime = input.get('contribute').raw();
 
-    const fv2 = input.get('your_target').gt(0).val();
-    const pv2 = input.get('starting_amount_2').gt(0).val();
-    const years2 = input.get('after_2').gt(0).val();
-    const rate2 = input.get('return_rate_2').gt(0).val();
+    const pv = input.get('starting_amount').nonNegative().val();
+    const years = input.get('after').positive().val();
+    const rate = input.get('return_rate').positive().val();
+    const compound = input.get('compound').index().val();
+    const contribution = input.get('additional_contribution').nonNegative().val();
+
+    const fv2 = input.get('your_target').positive().val();
+    const pv2 = input.get('starting_amount_2').nonNegative().lt('your_target').val();
+    const years2 = input.get('after_2').positive().val();
+    const rate2 = input.get('return_rate_2').positive().val();
     const compound2 = input.get('compound_2').index().val();
 
-    const fv3 = input.get('your_target_2').gt(0).lte(100000000).val();
-    const pv3 = input.get('starting_amount_3').gt(0).lt('your_target_2').val();
-    const years3 = input.get('after_3').gt(0).val();
+    const fv3 = input.get('your_target_2').positive().val();
+    const pv3 = input.get('starting_amount_3').nonNegative().lt('your_target_2').val();
+    const years3 = input.get('after_3').positive().val();
     const compound3 = input.get('compound_3').index().val();
-    const contribution3 = +input.get('additional_contribution_2').val();
+    const contribution3 = input.get('additional_contribution_2').nonNegative().lt('your_target_2').val();
 
-    const fv4 = input.get('your_target_3').gt(0).val();
-    const years4 = input.get('after_4').gt(0).val();
-    const rate4 = input.get('return_rate_3').gt(0).val();
+    const fv4 = input.get('your_target_3').positive().val();
+    const years4 = input.get('after_4').positive().val();
+    const rate4 = input.get('return_rate_3').positive().val();
     const compound4 = input.get('compound_3').index().val();
-    const contribution4 = +input.get('additional_contribution_3').lt('your_target_3').val();
+    const contribution4 = input.get('additional_contribution_3').nonNegative().lt('your_target_3').val();
 
-    const fv5 = input.get('your_target_4').gt(0).val();
-    const pv5 = +input.get('starting_amount_4').lt('your_target_4').val();
-    const rate5 = input.get('return_rate_4').gt(0).val();
+    const fv5 = input.get('your_target_4').positive().val();
+    const pv5 = input.get('starting_amount_4').nonNegative().lt('your_target_4').val();
+    const rate5 = input.get('return_rate_4').positive().val();
     const compound5 = input.get('compound_4').index().val();
-    const contribution5 = +input.get('additional_contribution_4').lt('your_target_4').val();
+    const contribution5 = input.get('additional_contribution_4').nonNegative().lt('your_target_4').val();
 
     if (!input.valid()) return;
 
@@ -40,10 +40,10 @@ function calculate() {
     if (calcType === 0) {
         // End Amount
         const result = calculateAmortization(pv, years, rate, getCompound(compound), contribution, contributionFrequency, contributionTime);
-        const FV = result[result.length - 1].endBalance;
+        const fv = result[result.length - 1].endBalance;
         const totalInterest = result[result.length - 1].totalInterest;
         const totalPrincipal = result[result.length - 1].totalContribution + pv;
-        output.val(`End Balance: ${currencyFormat(FV)}`).set('resultA-1');
+        output.val(`End Balance: ${currencyFormat(fv)}`).set('resultA-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultA-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultA-3');
         showResult(result, pv);
@@ -94,6 +94,7 @@ function calculate() {
         output.val(`End Balance: ${currencyFormat(fv3)}`).set('resultC-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultC-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultC-3');
+        showResult(result3, pv3);
     }
     else if (calcType === 3) {
         // Starting Amount
@@ -105,6 +106,7 @@ function calculate() {
         output.val(`End Balance: ${currencyFormat(fv4)}`).set('resultD-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultD-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultD-3');
+        showResult(result4, pv4);
     }
     else if (calcType === 4) {
         // Investment Length
@@ -138,6 +140,7 @@ function calculate() {
             output.val(`End Balance: ${currencyFormat(fv4)}`).set('resultE-1');
             output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultE-2');
             output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultE-3');
+            showResult(result5, pv5);
         }
     }
 }
