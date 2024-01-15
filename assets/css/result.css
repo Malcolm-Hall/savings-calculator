@@ -495,6 +495,11 @@ html[dir=rtl] .result-table__wrapper:last-child table tbody:last-child tr:last-c
     margin-top: -6px
 }
 
+.chart-wrapper--padding-horizontal {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem
+}
+
 @media only screen and (min-width:768px) {
     .chart-wrapper--padding-horizontal {
         padding-left: 2rem;
@@ -516,10 +521,6 @@ html[dir=rtl] .result-table__wrapper:last-child table tbody:last-child tr:last-c
     align-items: center;
     gap: 2rem;
     flex-direction: row
-}
-
-.chart-wrapper--loan {
-    height: 552px
 }
 
 .chart-wrapper--loan canvas {
