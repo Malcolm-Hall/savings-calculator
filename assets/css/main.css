@@ -1,0 +1,119 @@
+@font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-regular.eot);
+    src: local(""), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-regular.eot?#iefix) format("embedded-opentype"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-regular.woff2) format("woff2"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-regular.woff) format("woff"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-regular.ttf) format("truetype"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-regular.svg#Inter) format("svg")
+}
+
+@font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-500.eot);
+    src: local(""), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-500.eot?#iefix) format("embedded-opentype"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-500.woff2) format("woff2"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-500.woff) format("woff"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-500.ttf) format("truetype"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-500.svg#Inter) format("svg")
+}
+
+@font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-600.eot);
+    src: local(""), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-600.eot?#iefix) format("embedded-opentype"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-600.woff2) format("woff2"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-600.woff) format("woff"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-600.ttf) format("truetype"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-600.svg#Inter) format("svg")
+}
+
+@font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-800.eot);
+    src: local(""), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-800.eot?#iefix) format("embedded-opentype"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-800.woff2) format("woff2"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-800.woff) format("woff"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-800.ttf) format("truetype"), url(https://malcolm-hall.github.io/savings-calculator/assets/fonts/inter-v12-latin-800.svg#Inter) format("svg")
+}
+
+* {
+    font-family: Inter, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    font-weight: 400
+}
+
+.hidden {
+    display: none !important;
+    display: none !important
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 0;
+    outline: 0;
+    background: 0 0;
+    color: #111827;
+    text-decoration: none
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #fff
+}
+
+.wrapper {
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f3f4f6;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1
+}
+
+.row {
+    display: flex;
+    flex-direction: row
+}
+
+.col {
+    display: flex;
+    flex-direction: column
+}
+
+.ml-auto {
+    margin-left: auto
+}
+
+html[dir=rtl] .ml-auto {
+    margin-left: 0;
+    margin-right: auto
+}
+
+b,
+span {
+    color: inherit
+}
+
+.regular {
+    font-weight: 400 !important
+}
+
+.text-center {
+    text-align: center !important
+}
+
+.related-item-hidden {
+    display: none !important
+}
