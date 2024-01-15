@@ -1,5 +1,5 @@
-=== CI Savings calculator ===
-Contributors: calculatorio, Malcolm Hall
+=== Savings calculator ===
+Contributors: malcolmhall
 Tags: savings calculator, calculate investment, investment planning, ROI calculator, return on investment, investment growth, investment strategy, compound interest calculator, future value calculator, investment income, investment portfolio
 Requires at least: 5.0
 Tested up to: 6.4.0
@@ -15,11 +15,11 @@ This free savings calculator considers the initial and ending balances, return r
 
 Add the Savings Calculator shortcode to your page, post or sidebar:
 
-`[ci_savings_calculator]`
+`[mh_savings_calculator]`
 
 Add the following code to your template where you would like the Savings Calculator to appear:
 
-`<?php display_ci_savings_calculator(); ?>`
+`<?php display_mh_savings_calculator(); ?>`
 
 == Screenshots ==
 
@@ -34,5 +34,5 @@ Add the following code to your template where you would like the Savings Calcula
 
 == Usage ==
 
-* Add the shortcode `[ci_savings_calculator]` to your page, post or sidebar.
-* Or add the following code: `<?php display_ci_savings_calculator(); ?>` to your template where you would like the Savings Calculator to appear.
+* Add the shortcode `[mh_savings_calculator]` to your page, post or sidebar.
+* Or add the following code: `<?php display_mh_savings_calculator(); ?>` to your template where you would like the Savings Calculator to appear.
