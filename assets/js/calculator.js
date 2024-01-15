@@ -43,9 +43,9 @@ function calculate() {
         const FV = result[result.length - 1].endBalance;
         const totalInterest = result[result.length - 1].totalInterest;
         const totalPrincipal = result[result.length - 1].totalContribution + pv;
-        output.val('End Balance: $107,245.61').replace('$107,245.61', currencyFormat(FV)).set('resultA-1');
-        output.val('Total Principal: $56,000.00').replace('$56,000.00', currencyFormat(totalPrincipal)).set('resultA-2');
-        output.val('Total Interest: $51,245.61').replace('$51,245.61', currencyFormat(totalInterest)).set('resultA-3');
+        output.val(`End Balance: ${currencyFormat(FV)}`).set('resultA-1');
+        output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultA-2');
+        output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultA-3');
         showResult(result, pv);
     }
     else if (calcType === 1) {
@@ -54,10 +54,10 @@ function calculate() {
         const result2 = calculateAmortization(pv2, years2, rate2, getCompound(compound2), contribution2, contributionFrequency, contributionTime);
         const totalInterest = result2[result2.length - 1].totalInterest;
         const totalPrincipal = result2[result2.length - 1].totalContribution + pv;
-        output.val('You will need to contribute $200.00 at the end of each year to reach the target of $107,245.61.').replace('year', contributionFrequency).replace('$200.00', currencyFormat(contribution2)).replace('$107,245.61', currencyFormat(fv2)).set('resultB');
-        output.val('End Balance: $107,245.61').replace('$107,245.61', currencyFormat(fv2)).set('resultB-1');
-        output.val('Total Principal: $56,000.00').replace('$56,000.00', currencyFormat(totalPrincipal)).set('resultB-2');
-        output.val('Total Interest: $51,245.61').replace('$51,245.61', currencyFormat(totalInterest)).set('resultB-3');
+        output.val(`You will need to contribute ${currencyFormat(contribution2)} at the end of each ${contributionFrequency} to reach the target of ${currencyFormat(fv2)}.`).set('resultB');
+        output.val(`End Balance: ${currencyFormat(fv2)}`).set('resultB-1');
+        output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultB-2');
+        output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultB-3');
         showResult(result2, pv2);
     }
     else if (calcType === 2) {
@@ -90,10 +90,10 @@ function calculate() {
         const result3 = calculateAmortization(pv3, years3, r, getCompound(compound3), contribution3, contributionFrequency, contributionTime);
         const totalInterest = result3[result3.length - 1].totalInterest;
         const totalPrincipal = result3[result3.length - 1].totalContribution + pv3;
-        output.val('You will need an annual return rate of 6% to reach the target of $107,245.61.').replace('year', contributionFrequency).replace('6%', r + '%').replace('$107,245.61', currencyFormat(fv3)).set('resultC');
-        output.val('End Balance: $107,245.61').replace('$107,245.61', currencyFormat(fv3)).set('resultC-1');
-        output.val('Total Principal: $56,000.00').replace('$56,000.00', currencyFormat(totalPrincipal)).set('resultC-2');
-        output.val('Total Interest: $51,245.61').replace('$51,245.61', currencyFormat(totalInterest)).set('resultC-3');
+        output.val(`You will need an annual return rate of ${r}% to reach the target of ${currencyFormat(fv3)}.`).set('resultC');
+        output.val(`End Balance: ${currencyFormat(fv3)}`).set('resultC-1');
+        output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultC-2');
+        output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultC-3');
     }
     else if (calcType === 3) {
         // Starting Amount
@@ -101,10 +101,10 @@ function calculate() {
         const result4 = calculateAmortization(pv4, years4, rate4, getCompound(compound4), contribution4, contributionFrequency, contributionTime);
         const totalInterest = result4[result4.length - 1].totalInterest;
         const totalPrincipal = result4[result4.length - 1].totalContribution + pv4;
-        output.val('You will need to invest $20,000.00 at the beginning to reach the target of $107,245.61.').replace('$20,000.00', currencyFormat(pv4)).replace('$107,245.61', currencyFormat(fv4)).set('resultD');
-        output.val('End Balance: $107,245.61').replace('$107,245.61', currencyFormat(fv4)).set('resultD-1');
-        output.val('Total Principal: $56,000.00').replace('$56,000.00', currencyFormat(totalPrincipal)).set('resultD-2');
-        output.val('Total Interest: $51,245.61').replace('$51,245.61', currencyFormat(totalInterest)).set('resultD-3');
+        output.val(`You will need to invest ${currencyFormat(pv4)} at the beginning to reach the target of ${currencyFormat(fv4)}.`).set('resultD');
+        output.val(`End Balance: ${currencyFormat(fv4)}`).set('resultD-1');
+        output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultD-2');
+        output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultD-3');
     }
     else if (calcType === 4) {
         // Investment Length
@@ -134,10 +134,10 @@ function calculate() {
             const result5 = calculateAmortization(pv5, yResult, rate5, getCompound(compound5), contribution5, contributionFrequency, contributionTime);
             const totalInterest = result5[result5.length - 1].totalInterest;
             const totalPrincipal = result5[result5.length - 1].totalContribution + pv5;
-            output.val('You will need to invest 15 years to reach the target of $107,245.61.').replace('15', yResult).replace('$107,245.61', currencyFormat(fv5)).set('resultE');
-            output.val('End Balance: $107,245.61').replace('$107,245.61', currencyFormat(fv4)).set('resultE-1');
-            output.val('Total Principal: $56,000.00').replace('$56,000.00', currencyFormat(totalPrincipal)).set('resultE-2');
-            output.val('Total Interest: $51,245.61').replace('$51,245.61', currencyFormat(totalInterest)).set('resultE-3');
+            output.val(`You will need to invest ${yResult} years to reach the target of ${currencyFormat(fv5)}`).set('resultE');
+            output.val(`End Balance: ${currencyFormat(fv4)}`).set('resultE-1');
+            output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultE-2');
+            output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultE-3');
         }
     }
 }
@@ -293,7 +293,7 @@ function get_contribution(compound_periods_per_year, contribution_per_year, need
 }
 
 function currencyFormat(num) {
-    return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    return 'R ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
 function calculateFV(pv, years, rate, compound = 12, contribution = 0, contributionFrequency = 'month', contributionTime = 'end') {
