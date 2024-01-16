@@ -1,325 +1,305 @@
 // CHART_DONUT_BIG CHART_LOAN
 'use strict'
+const customDataLabels = {
+    id: 'customDataLabel',
+    afterDatasetDraw(chart, args, pluginOptions) {
+        const {
+            ctx,
+            data
+        } = chart;
+        ctx.save();
 
-import("./lib/chartjs/chart.js").then((e) => {
-	let Chart = e.Chart
-	let registerables = e.registerables
-	Chart.register(...registerables)
+        data.datasets[0].data.forEach((datapoint, index) => {
+            const { x, y } = chart.getDatasetMeta(0).data[index].tooltipPosition();
 
-	const colors = {
-		purple: '#A78BFA',
-		yellow: '#FBBF24',
-		sky: '#7DD3FC',
-		blue: '#1D4ED8',
-		red: '#F87171',
-		textColor: '#6B7280',
-		yellowGradientStart: 'rgba(250, 219, 139, 0.33)',
-		purpleGradientStart: 'rgba(104, 56, 248, 0.16)',
-		skyGradientStart: 'rgba(56, 187, 248, 0.16)',
-		tealGradientStart: 'rgba(56, 248, 222, 0.16)',
-		yellowGradientStop: 'rgba(250, 219, 139, 0)',
-		purpleGradientStop: 'rgba(104, 56, 248, 0)',
-		skyGradientStop: 'rgba(56, 248, 222, 0.16)',
-		gridColor: '#DBEAFE',
-		tooltipBackground: '#fff',
-		fractionColor: '#EDE9FE',
-	};
+            ctx.textAlign = 'center';
+            ctx.font = '14px Inter';
+            ctx.fillStyle = '#fff';
+            ctx.textBaseline = 'middle';
+            let toolTipText = datapoint != '0' ? datapoint + '%' : '';
+            ctx.fillText(toolTipText, x, y);
+        });
+    },
+};
 
-	let data = [
-		{
-			data: [48, 19, 34],
-			labels: ['48%', '19%', '34%'],
-			backgroundColor: [colors.yellow, colors.purple, colors.sky],
-			borderColor: '#DDD6FE',
-			borderWidth: 0,
-		},
-	];
+const colors = {
+    purple: '#A78BFA',
+    yellow: '#FBBF24',
+    sky: '#7DD3FC',
+    blue: '#1D4ED8',
+    red: '#F87171',
+    textColor: '#6B7280',
+    yellowGradientStart: 'rgba(250, 219, 139, 0.33)',
+    purpleGradientStart: 'rgba(104, 56, 248, 0.16)',
+    skyGradientStart: 'rgba(56, 187, 248, 0.16)',
+    tealGradientStart: 'rgba(56, 248, 222, 0.16)',
+    yellowGradientStop: 'rgba(250, 219, 139, 0)',
+    purpleGradientStop: 'rgba(104, 56, 248, 0)',
+    skyGradientStop: 'rgba(56, 248, 222, 0.16)',
+    gridColor: '#DBEAFE',
+    tooltipBackground: '#fff',
+    fractionColor: '#EDE9FE',
+};
 
-	let options = {
-		rotation: 0,
-		cutout: '37%',
-		hover: {mode: null},
-		responsive: false,
-		layout: {
-			padding: 30,
-		},
-		plugins: {
-			tooltip: {
-				enabled: false,
-			},
-			legend: {
-				display: false,
-			},
-		},
-	};
+const tooltip = {
+    enabled: false,
+    external: function (context) {
+        let tooltipEl = _('chartjs-tooltip');
 
-	const customDataLabels = {
-		id: 'customDataLabel',
-		afterDatasetDraw(chart, args, pluginOptions) {
-			const {
-				ctx,
-				data
-			} = chart;
-			ctx.save();
+        // Create element on first render
+        if (!tooltipEl) {
+            tooltipEl = document.createElement('div');
+            tooltipEl.id = 'chartjs-tooltip';
+            tooltipEl.innerHTML = '<table></table>';
+            document.body.appendChild(tooltipEl);
+        }
 
-			data.datasets[0].data.forEach((datapoint, index) => {
-				const { x, y } = chart.getDatasetMeta(0).data[index].tooltipPosition();
+        // Hide if no tooltip
+        const tooltipModel = context.tooltip;
+        if (tooltipModel.opacity === 0) {
+            tooltipEl.style.opacity = 0;
+            return;
+        }
 
-				ctx.textAlign = 'center';
-				ctx.font = '14px Inter';
-				ctx.fillStyle = '#fff';
-				ctx.textBaseline = 'middle';
-				let toolTipText = datapoint != '0' ? datapoint + '%' : '';
-				ctx.fillText(toolTipText, x, y);
-			});
-		},
-	};
+        // Set caret Position
+        tooltipEl.classList.remove('above', 'below', 'no-transform');
+        if (tooltipModel.yAlign) {
+            tooltipEl.classList.add(tooltipModel.yAlign);
+        } else {
+            tooltipEl.classList.add('no-transform');
+        }
 
-	let donutBig = new Chart(document.getElementById('chartDonutBig'), {
-		type: 'doughnut',
-		data: {
-			datasets: data,
-		},
-		options: options,
-		plugins: [customDataLabels],
-	});
+        function getBody(bodyItem) {
+            return bodyItem.lines;
+        }
 
-	// LOAN CHART
+        if (tooltipModel.body) {
+            const bodyLines = tooltipModel.body.map(getBody);
 
-	let ctx = document.getElementById('chartLoan').getContext('2d');
+            let innerHtml = '<thead>';
 
-	let yellowGradient = ctx.createLinearGradient(0, 0, 0, 1024);
-	yellowGradient.addColorStop(0, colors.yellowGradientStart);
-	yellowGradient.addColorStop(1, colors.yellowGradientStop);
+            let year = +(Number(tooltipModel.title) * 12).toFixed(0);
+            let months = +(year % 12).toFixed(0);
+            let yearText = `Year ${(year - months) / 12}`;
+            let monthText = months === 0 ? '' : `, Month ${months}`;
+            innerHtml += '<tr><th class="loan-chart__title">' + yearText + monthText + '</th></tr>';
 
-	let purpleGradient = ctx.createLinearGradient(0, 0, 0, 1024);
-	purpleGradient.addColorStop(0, colors.purpleGradientStart);
-	purpleGradient.addColorStop(1, colors.purpleGradientStop);
+            innerHtml += '</thead><tbody>';
+            bodyLines.forEach(function (body, i) {
+                innerHtml += '<tr><td class="loan-chart__text">' + body + '</td></tr>';
+            });
+            innerHtml += '</tbody>';
+
+            let tableRoot = tooltipEl.querySelector('table');
+            tableRoot.innerHTML = innerHtml;
+        }
+
+        const position = context.chart.canvas.getBoundingClientRect();
+
+        // Display, position, and set styles for font
+        tooltipEl.style.opacity = 1;
+        tooltipEl.style.position = 'absolute';
+        tooltipEl.style.left = position.left + window.scrollX + tooltipModel.caretX - tooltipEl.clientWidth / 2 + 'px';
+        tooltipEl.style.top = position.top + window.scrollY + tooltipModel.caretY - tooltipEl.clientHeight / 2 + 'px';
+        tooltipEl.classList.add('loan-chart');
+    },
+};
+
+import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
+    Chart.register(...registerables);
+
+    const pieChartData = [
+        {
+            data: [48, 19, 34],
+            labels: ['48%', '19%', '34%'],
+            backgroundColor: [colors.yellow, colors.purple, colors.sky],
+            borderColor: '#DDD6FE',
+            borderWidth: 0,
+        },
+    ];
+
+    const pieChart = new Chart(_('chartDonutBig'), {
+        type: 'pie',
+        data: {
+            datasets: pieChartData,
+        },
+        options: {
+            rotation: 0,
+            hover: { mode: null },
+            responsive: false,
+            layout: {
+                padding: 30,
+            },
+            plugins: {
+                tooltip: {
+                    enabled: false,
+                },
+                legend: {
+                    display: false,
+                },
+            },
+        },
+        plugins: [customDataLabels],
+    });
+
+    let ctx = _('chartLoan').getContext('2d');
+
+    const yellowGradient = ctx.createLinearGradient(0, 0, 0, 1024);
+    yellowGradient.addColorStop(0, colors.yellowGradientStart);
+    yellowGradient.addColorStop(1, colors.yellowGradientStop);
+
+    const purpleGradient = ctx.createLinearGradient(0, 0, 0, 1024);
+    purpleGradient.addColorStop(0, colors.purpleGradientStart);
+    purpleGradient.addColorStop(1, colors.purpleGradientStop);
 
 
-	let skyGradient = ctx.createLinearGradient(0, 0, 0, 1024);
-	skyGradient.addColorStop(0, colors.skyGradientStart);
-	skyGradient.addColorStop(1, colors.skyGradientStop);
+    const skyGradient = ctx.createLinearGradient(0, 0, 0, 1024);
+    skyGradient.addColorStop(0, colors.skyGradientStart);
+    skyGradient.addColorStop(1, colors.skyGradientStop);
 
-	let tooltip = {
-		enabled: false,
-		external: function (context) {
-			let tooltipEl = document.getElementById('chartjs-tooltip');
+    const barChartData = {
+        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        datasets: [
+            {
+                label: 'Principal',
+                data: [
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000,
+                    20_000
+                ],
+                order: 1,
+                pointHoverBackgroundColor: '#FFFFFF',
+                pointHoverBorderWidth: 2,
+                pointHoverRadius: 6,
+                pointHoverBorderColor: '#5045E5',
+                borderColor: colors.purple,
+                backgroundColor: purpleGradient,
+                fill: true,
+            },
+            {
+                label: 'Interest',
+                data: [
+                    1301,
+                    2830,
+                    4601,
+                    6629,
+                    8931,
+                    11523,
+                    14422,
+                    17649,
+                    21222,
+                    25164,
+                    29497,
+                    34245,
+                    39434,
+                    45091,
+                    51246
+                ],
+                order: 2,
+                pointHoverBackgroundColor: '#FFFFFF',
+                pointHoverBorderWidth: 2,
+                pointHoverRadius: 6,
+                pointHoverBorderColor: '#5045E5',
+                borderColor: colors.yellow,
+                backgroundColor: yellowGradient,
+                fill: true,
+            },
+            {
+                label: 'Contributions',
+                data: [
+                    2400,
+                    4800,
+                    7200,
+                    9600,
+                    12000,
+                    14400,
+                    16800,
+                    19200,
+                    21600,
+                    24000,
+                    26400,
+                    28800,
+                    31200,
+                    33600,
+                    36000,
+                ],
+                order: 3,
+                pointHoverBackgroundColor: '#FFFFFF',
+                pointHoverBorderWidth: 2,
+                pointHoverRadius: 6,
+                pointHoverBorderColor: '#5045E5',
+                borderColor: colors.sky,
+                backgroundColor: skyGradient,
+                fill: true,
+            },
+        ],
+    };
 
-			// Create element on first render
-			if (!tooltipEl) {
-				tooltipEl = document.createElement('div');
-				tooltipEl.id = 'chartjs-tooltip';
-				tooltipEl.innerHTML = '<table></table>';
-				document.body.appendChild(tooltipEl);
-			}
+    const barChart = new Chart(_('chartLoan'), {
+        type: 'bar',
+        data: barChartData,
+        options: {
+            response: true,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: tooltip,
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            scales: {
+                y: {
+                    stacked: true,
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        display: false
+                    },
+                    border: {
+                        display: false,
+                    },
+                },
+                x: {
+                    stacked: true,
+                    border: {
+                        display: false
+                    },
+                    ticks: {
+                        display: false
+                    },
+                    grid: {
+                        display: false
+                    },
+                },
+            },
+        }
+    });
 
-			// Hide if no tooltip
-			const tooltipModel = context.tooltip;
-			if (tooltipModel.opacity === 0) {
-				tooltipEl.style.opacity = 0;
-				return;
-			}
+    window.changeChartData = function (values, values_two) {
+        pieChart.data.datasets[0].data = values
+        pieChart.data.datasets[0].labels = values.map(value => `${value}%`)
+        pieChart.update()
 
-			// Set caret Position
-			tooltipEl.classList.remove('above', 'below', 'no-transform');
-			if (tooltipModel.yAlign) {
-				tooltipEl.classList.add(tooltipModel.yAlign);
-			} else {
-				tooltipEl.classList.add('no-transform');
-			}
-
-			function getBody(bodyItem) {
-				return bodyItem.lines;
-			}
-
-			if (tooltipModel.body) {
-				const bodyLines = tooltipModel.body.map(getBody);
-
-				let innerHtml = '<thead>';
-
-				let year = +(Number(tooltipModel.title) * 12).toFixed(0);
-				let months = +(year % 12).toFixed(0);
-				let yearText = `Year ${(year - months) / 12}`;
-				let monthText = months === 0 ? '' : `, Month ${months}`;
-				innerHtml += '<tr><th class="loan-chart__title">' + yearText + monthText + '</th></tr>';
-
-				innerHtml += '</thead><tbody>';
-				bodyLines.forEach(function (body, i) {
-					innerHtml += '<tr><td class="loan-chart__text">' + body + '</td></tr>';
-				});
-				innerHtml += '</tbody>';
-
-				let tableRoot = tooltipEl.querySelector('table');
-				tableRoot.innerHTML = innerHtml;
-			}
-
-			const position = context.chart.canvas.getBoundingClientRect();
-
-			// Display, position, and set styles for font
-			tooltipEl.style.opacity = 1;
-			tooltipEl.style.position = 'absolute';
-			tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX - tooltipEl.clientWidth / 2 + 'px';
-			tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY - tooltipEl.clientHeight / 2 + 'px';
-			// tooltipEl.style.font = bodyFont.string;
-			tooltipEl.classList.add('loan-chart');
-		},
-	};
-
-	const dataCharts = {
-		labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-		datasets: [
-			{
-				data: [
-					23701,
-					27630,
-					31801,
-					36229,
-					40931,
-					45923,
-					51222,
-					56849,
-					62822,
-					69164,
-					75897,
-					83045,
-					90634,
-					98691,
-					107246
-				],
-				type: 'line',
-				order: 1,
-				label: 'Balance',
-				pointHoverBackgroundColor: '#FFFFFF',
-				pointHoverBorderWidth: 2,
-				pointHoverRadius: 6,
-				pointHoverBorderColor: '#5045E5',
-				borderColor: colors.purple,
-				backgroundColor: purpleGradient,
-				fill: true,
-			},
-			{
-				label: 'Interest',
-				data: [
-					1301,
-					2830,
-					4601,
-					6629,
-					8931,
-					11523,
-					14422,
-					17649,
-					21222,
-					25164,
-					29497,
-					34245,
-					39434,
-					45091,
-					51246
-				],
-				type: 'line',
-				order: 1,
-				pointHoverBackgroundColor: '#FFFFFF',
-				pointHoverBorderWidth: 2,
-				pointHoverRadius: 6,
-				pointHoverBorderColor: '#5045E5',
-				borderColor: colors.yellow,
-				backgroundColor: yellowGradient,
-				fill: true,
-			},
-			{
-				label: 'Contributions',
-				data: [
-					2400,
-					4800,
-					7200,
-					9600,
-					12000,
-					14400,
-					16800,
-					19200,
-					21600,
-					24000,
-					26400,
-					28800,
-					31200,
-					33600,
-					36000,
-				],
-				type: 'line',
-				order: 3,
-				pointHoverBackgroundColor: '#FFFFFF',
-				pointHoverBorderWidth: 2,
-				pointHoverRadius: 6,
-				pointHoverBorderColor: '#5045E5',
-				borderColor: colors.sky,
-				backgroundColor: skyGradient,
-				fill: true,
-			},
-		],
-	};
-
-	let chartLoan = new Chart(document.getElementById('chartLoan'), {
-		data: dataCharts,
-		options: {
-			stepSize: 1,
-			response: true,
-			elements: {
-				point: {
-					radius: 0,
-				},
-			},
-			plugins: {
-				legend: {
-					display: false,
-				},
-				tooltip: tooltip,
-			},
-			interaction: {
-				mode: 'index',
-				intersect: false,
-			},
-			scales: {
-				y: {
-					grid: {
-						tickLength: 0,
-						color: colors.gridColor,
-					},
-					ticks: {
-						display: false,
-						stepSize: 1,
-					},
-					border: {
-						color: colors.gridColor,
-					},
-				},
-				x: {
-					border: {
-						color: colors.gridColor,
-					},
-					ticks: {
-						display: false,
-						color: colors.gridColor,
-						stepSize: 1,
-					},
-					grid: {
-						tickLength: 0,
-						color: colors.gridColor,
-					},
-				},
-			},
-		},
-	});
-
-	window.changeChartData = function(values, values_two) {
-		donutBig.data.datasets[0].data = values
-		donutBig.data.datasets[0].labels = values.map(value => `${value}%`)
-		donutBig.update()
-
-		chartLoan.data.labels = values_two[0]
-		chartLoan.data.datasets[0].data = values_two[1]
-		chartLoan.data.datasets[1].data = values_two[2]
-		chartLoan.data.datasets[2].data = values_two[3]
-		chartLoan.update()
-	}
+        barChart.data.labels = values_two[0]
+        barChart.data.datasets[0].data = values_two[1]
+        barChart.data.datasets[1].data = values_two[2]
+        barChart.data.datasets[2].data = values_two[3]
+        barChart.update()
+    }
 })

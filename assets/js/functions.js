@@ -45,8 +45,7 @@ window.toggleRelatedInputs = function (element, id, action) {
 window.forceNumeric = function (input) {
     input.value = input.value
         .replace(/[^0-9.]/g, '')
-        .replace(/(\..*?)\..*/g, '$1')
-        .replace(/^0[^.]/, '0');
+        .replace(/(\..*?)\..*/g, '$1');
 }
 
 window.output = {
