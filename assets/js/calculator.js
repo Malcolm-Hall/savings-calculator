@@ -8,6 +8,7 @@ function calculate() {
     const rate = input.get('return_rate').positive().val();
     const compound = input.get('compound').index().val();
     const contribution = input.get('additional_contribution').nonNegative().val();
+    const annualIncreaseRate = input.get('annual_increase').nonNegative().val();
 
     const fv2 = input.get('your_target').positive().val();
     const pv2 = input.get('starting_amount_2').nonNegative().lt('your_target').val();
@@ -39,7 +40,16 @@ function calculate() {
     const inEnd = contributionTime === 'end';
     if (calcType === 0) {
         // End Amount
-        const result = calculateAmortization(pv, years, rate, getCompound(compound), contribution, contributionFrequency, contributionTime);
+        const result = calculateAmortizationExtended(
+            pv,
+            years,
+            rate,
+            getCompound(compound),
+            contribution,
+            annualIncreaseRate,
+            contributionFrequency,
+            contributionTime
+        );
         const fv = result[result.length - 1].endBalance;
         const totalInterest = result[result.length - 1].totalInterest;
         const totalPrincipal = result[result.length - 1].totalContribution + pv;
@@ -232,15 +242,24 @@ function getCompound(compound) {
     }
 }
 
-function calculateAmortization(pv, years, rate, compound = 12, contribution = 0, contributionFrequency = 'month', contributionTime = 'end') {
-    let amortization = [];
+function calculateAmortization(
+    principal,
+    years,
+    rate,
+    compound = 12,
+    contribution = 0,
+    contributionFrequency = 'month',
+    contributionTime = 'end',
+) {
     const months = years * 12;
     const cc = compound / 12
     const interest = rate / 100 / compound;
-    var balance = pv;
-    let ratePayB = Math.pow(1 + interest, cc) - 1;
-    var totalContribution = 0;
-    var totalInterest = 0;
+    const ratePayB = Math.pow(1 + interest, cc) - 1;
+
+    let amortization = [];
+    let balance = principal;
+    let totalContribution = 0;
+    let totalInterest = 0;
     for (let i = 1; i <= months; i++) {
         let contributionAmount = 0;
         if (contribution && contributionTime === 'beginning') {
@@ -271,6 +290,64 @@ function calculateAmortization(pv, years, rate, compound = 12, contribution = 0,
             totalInterest,
             contributionAmount
         })
+    }
+    return amortization;
+}
+
+function calculateAmortizationExtended(
+    principal,
+    years,
+    rate,
+    compound = 12,
+    initialContribution = 0,
+    annualIncreaseRate = 0,
+    contributionFrequency = 'month',
+    contributionTime = 'end',
+) {
+    const months = years * 12;
+    const cc = compound / 12
+    const interest = rate / 100 / compound;
+    const ratePayB = Math.pow(1 + interest, cc) - 1;
+
+    let amortization = [];
+    let contribution = initialContribution;
+    let balance = principal;
+    let totalContribution = 0;
+    let totalInterest = 0;
+    for (let i = 1; i <= months; i++) {
+        let contributionAmount = 0;
+        if (contribution && contributionTime === 'beginning') {
+            if (contributionFrequency === 'month' || (i - 1) % 12 === 0) {
+                balance += contribution;
+                contributionAmount += contribution;
+                totalContribution += contribution;
+            }
+        }
+        let startBalance = balance;
+        let interestPayment = balance * ratePayB;
+        totalInterest += interestPayment;
+        balance += interestPayment;
+        if (contribution && contributionTime === 'end') {
+            if (contributionFrequency === 'month' || i % 12 === 0) {
+                balance += contribution;
+                contributionAmount += contribution;
+                totalContribution += contribution;
+
+            }
+        }
+
+        amortization.push({
+            startBalance,
+            endBalance: balance,
+            interestPayment,
+            totalContribution,
+            totalInterest,
+            contributionAmount
+        });
+
+        if (annualIncreaseRate && i % 12 === 0) {
+            contribution *= 1 + annualIncreaseRate / 100;
+        }
     }
     return amortization;
 }
