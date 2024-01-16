@@ -206,7 +206,7 @@ function showResult(result, principal) {
             <td>${currencyFormat(r.endBalance)}</td>
     </tr>`;
         chartData[0].push((index + 1));
-        chartData[1].push(roundTo(r.endBalance, 0));
+        chartData[1].push(roundTo(principal, 0));
         chartData[2].push(roundTo(r.totalInterest, 0));
         chartData[3].push(roundTo(r.totalContributions, 0));
     });
