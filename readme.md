@@ -1,6 +1,6 @@
 # Savings Calculator Widget for WordPress
 
-This free savings calculator considers the initial and ending balances, return rate, and investment time when evaluating various investment circumstances.
+This free savings calculator considers the initial and ending balances, interest rate, and investment time when evaluating various investment circumstances.
 
 ![Savings Calculator Input Form](/assets/images/screenshot-1.png "Savings Calculator Input Form")
 ![Savings Calculator Calculation Results](/assets/images/screenshot-2.png "Savings Calculator Calculation Results")
