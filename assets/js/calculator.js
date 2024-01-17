@@ -8,29 +8,29 @@ function calculate() {
     const contribution = input.get('additional_contribution').nonNegative().val();
     const annualIncreaseRate = input.get('annual_increase').nonNegative().val();
 
-    const fv2 = input.get('your_target').positive().val();
-    const pv2 = input.get('starting_amount_2').nonNegative().lt('your_target').val();
+    const fv2 = input.get('your_target_2').positive().val();
+    const pv2 = input.get('starting_amount_2').nonNegative().lt('your_target_2').val();
     const years2 = input.get('after_2').positive().val();
     const rate2 = input.get('return_rate_2').positive().val();
     const compound2 = input.get('compound_2').index().val();
 
-    const fv3 = input.get('your_target_2').positive().val();
-    const pv3 = input.get('starting_amount_3').nonNegative().lt('your_target_2').val();
+    const fv3 = input.get('your_target_3').positive().val();
+    const pv3 = input.get('starting_amount_3').nonNegative().lt('your_target_3').val();
     const years3 = input.get('after_3').positive().val();
-    const compound3 = input.get('compound_3').index().val();
-    const contribution3 = input.get('additional_contribution_2').nonNegative().lt('your_target_2').val();
+    const compound3 = 0;
+    const contribution3 = input.get('additional_contribution_3').nonNegative().lt('your_target_3').val();
 
-    const fv4 = input.get('your_target_3').positive().val();
+    const fv4 = input.get('your_target_4').positive().val();
     const years4 = input.get('after_4').positive().val();
-    const rate4 = input.get('return_rate_3').positive().val();
-    const compound4 = input.get('compound_3').index().val();
-    const contribution4 = input.get('additional_contribution_3').nonNegative().lt('your_target_3').val();
+    const rate4 = input.get('return_rate_4').positive().val();
+    const compound4 = input.get('compound_4').index().val();
+    const contribution4 = input.get('additional_contribution_4').nonNegative().lt('your_target_4').val();
 
-    const fv5 = input.get('your_target_4').positive().val();
-    const pv5 = input.get('starting_amount_4').nonNegative().lt('your_target_4').val();
-    const rate5 = input.get('return_rate_4').positive().val();
-    const compound5 = input.get('compound_4').index().val();
-    const contribution5 = input.get('additional_contribution_4').nonNegative().lt('your_target_4').val();
+    const fv5 = input.get('your_target_5').positive().val();
+    const pv5 = input.get('starting_amount_5').nonNegative().lt('your_target_5').val();
+    const rate5 = input.get('return_rate_5').positive().val();
+    const compound5 = input.get('compound_5').index().val();
+    const contribution5 = input.get('additional_contribution_5').nonNegative().lt('your_target_5').val();
     const annualIncreaseRate5 = input.get('annual_increase_5').nonNegative().val();
 
 
@@ -63,14 +63,14 @@ function calculate() {
         // Interest Rate
         let totalContribution = contribution3 * years3 * 12;
         let totalInvested = pv3 + totalContribution;
-        var r = 0;
         if (totalInvested > fv3) {
-            return input.error(['starting_amount_3', 'additional_contribution_2'], 'Total invested cannot be greater than future value', true);
+            return input.error(['starting_amount_3', 'additional_contribution_3'], 'Total invested cannot be greater than future value', true);
         }
         else {
-            var roi = fv3 / totalInvested * 100;
-            var increment = 10;
-            var i = 0;
+            let r = 0;
+            let roi = fv3 / totalInvested * 100;
+            let increment = 10;
+            let i = 0;
             while (!r && i < 100000) {
                 let futureValue = calculateFV(pv3, years3, roi, getCompound(compound3), contribution3, 0);
                 if ((futureValue / fv3) < 0.999) {
@@ -111,7 +111,7 @@ function calculate() {
         // Investment Term
         let totalInvested = pv5 + contribution5;
         if (totalInvested > fv5) {
-            return input.error(['starting_amount_2', 'additional_contribution_4'], 'Total invested cannot be greater than future value', true);
+            return input.error(['starting_amount_5', 'additional_contribution_5'], 'Total invested cannot be greater than future value', true);
         }
         else {
             let y = 0.2;
@@ -135,7 +135,7 @@ function calculate() {
             const totalInterest = result5[result5.length - 1].totalInterest;
             const totalPrincipal = result5[result5.length - 1].totalContribution + pv5;
             output.val(`You will need to invest ${yResult} years to reach the target of ${currencyFormat(fv5)}`).set('resultE');
-            output.val(`End Balance: ${currencyFormat(fv4)}`).set('resultE-1');
+            output.val(`End Balance: ${currencyFormat(fv5)}`).set('resultE-1');
             output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultE-2');
             output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultE-3');
             showResult(result5, pv5);
