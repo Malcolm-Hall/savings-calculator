@@ -161,7 +161,7 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
         labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
         datasets: [
             {
-                label: 'Principal',
+                label: 'Lump Sum',
                 data: [
                     20_000,
                     20_000,

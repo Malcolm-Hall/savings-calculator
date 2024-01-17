@@ -58,7 +58,7 @@ function calculate() {
         showResult(result2, pv2);
     }
     else if (calcType === 2) {
-        // Return Rate
+        // Interest Rate
         let totalContribution = contribution3 * years3 * 12;
         let totalInvested = pv3 + totalContribution;
         var r = 0;
@@ -87,14 +87,14 @@ function calculate() {
         const result3 = calculateAmortization(pv3, years3, r, getCompound(compound3), contribution3, 0);
         const totalInterest = result3[result3.length - 1].totalInterest;
         const totalPrincipal = result3[result3.length - 1].totalContribution + pv3;
-        output.val(`You will need an annual return rate of ${r}% to reach the target of ${currencyFormat(fv3)}.`).set('resultC');
+        output.val(`You will need an annual interest rate of ${r}% to reach the target of ${currencyFormat(fv3)}.`).set('resultC');
         output.val(`End Balance: ${currencyFormat(fv3)}`).set('resultC-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultC-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultC-3');
         showResult(result3, pv3);
     }
     else if (calcType === 3) {
-        // Starting Amount
+        // Lump Sum Amount
         const pv4 = get_primalvalue_with_contrib(fv4, years4, rate4 / 100, getCompound(compound4), contribution4);
         const result4 = calculateAmortization(pv4, years4, rate4, getCompound(compound4), contribution4, 0);
         const totalInterest = result4[result4.length - 1].totalInterest;

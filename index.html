@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
-    <meta name="description" content="This free savings calculator considers the initial and ending balances, return rate, and investment time when evaluating various investment circumstances.">
+    <meta name="description" content="This free savings calculator considers the initial and ending balances, interest rate, and investment time when evaluating various investment circumstances.">
     <link rel="preload" href="./assets/fonts/inter-v12-latin-regular.woff2" as="font" crossorigin type="font/woff2">
     <link rel="preload" href="./assets/fonts/inter-v12-latin-500.woff2" as="font" crossorigin type="font/woff2">
     <link rel="preload" href="./assets/fonts/inter-v12-latin-600.woff2" as="font" crossorigin type="font/woff2">
@@ -32,8 +32,8 @@
                                 <select class="input-field__text" onchange="toggleRelatedInputs(this)" id="loan_type">
                                     <option value="End Amount"> End Amount </option>
                                     <option value="Monthly Contribution"> Monthly Contribution </option>
-                                    <option value="Return Rate"> Return Rate </option>
-                                    <option value="Starting Amount"> Starting Amount </option>
+                                    <option value="Interest Rate"> Interest Rate </option>
+                                    <option value="Lump Sum Amount"> Lump Sum Amount </option>
                                     <option value="Investment Length"> Investment Length </option>
                                 </select>
                             </div>
@@ -42,13 +42,13 @@
                 </div>
                 <div class="input-wrapper row loan_type related-to-loan_type-0">
                     <label class="input col  ">
-                        <p class="input__title">Starting Amount</p>
+                        <p class="input__title">Lump Sum Amount</p>
                         <div class="input-field row">
                             <span class="input-field__hint">R</span>
                             <input type="text" class="input-field__input" placeholder id="starting_amount" value="20000" oninput="forceNumeric(this)" />
                         </div>
                     </label> <label class="input col  ">
-                        <p class="input__title">After</p>
+                        <p class="input__title">Investment Term</p>
                         <div class="input-field row">
                             <input type="text" class="input-field__input" placeholder id="after" value="15" oninput="forceNumeric(this)" />
                             <span class="input-field__hint">years</span>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="input-wrapper row loan_type related-to-loan_type-0">
                     <label class="input col  ">
-                        <p class="input__title">Return Rate</p>
+                        <p class="input__title">Interest Rate</p>
                         <div class="input-field row">
                             <input type="text" class="input-field__input" placeholder id="return_rate" value="6" oninput="forceNumeric(this)" />
                             <span class="input-field__hint">%</span>
@@ -106,13 +106,13 @@
                 </div>
                 <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-1">
                     <label class="input col  ">
-                        <p class="input__title">Starting Amount</p>
+                        <p class="input__title">Lump Sum Amount</p>
                         <div class="input-field row">
                             <span class="input-field__hint">R</span>
                             <input type="text" class="input-field__input" placeholder id="starting_amount_2" value="20000" oninput="forceNumeric(this)" />
                         </div>
                     </label> <label class="input col  ">
-                        <p class="input__title">After</p>
+                        <p class="input__title">Investment Term</p>
                         <div class="input-field row">
                             <input type="text" class="input-field__input" placeholder id="after_2" value="15" oninput="forceNumeric(this)" />
                             <span class="input-field__hint">years</span>
@@ -121,7 +121,7 @@
                 </div>
                 <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-1">
                     <label class="input col  ">
-                        <p class="input__title">Return Rate</p>
+                        <p class="input__title">Interest Rate</p>
                         <div class="input-field row">
                             <input type="text" class="input-field__input" placeholder id="return_rate_2" value="6" oninput="forceNumeric(this)" />
                             <span class="input-field__hint">%</span>
@@ -154,13 +154,13 @@
                 </div>
                 <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-2">
                     <label class="input col  ">
-                        <p class="input__title">Starting Amount</p>
+                        <p class="input__title">Lump Sum Amount</p>
                         <div class="input-field row">
                             <span class="input-field__hint">R</span>
                             <input type="text" class="input-field__input" placeholder id="starting_amount_3" value="20000" oninput="forceNumeric(this)" />
                         </div>
                     </label> <label class="input col  ">
-                        <p class="input__title">After</p>
+                        <p class="input__title">Investment Term</p>
                         <div class="input-field row">
                             <input type="text" class="input-field__input" placeholder id="after_3" value="15" oninput="forceNumeric(this)" />
                             <span class="input-field__hint">years</span>
@@ -184,7 +184,7 @@
                             <input type="text" class="input-field__input" placeholder id="your_target_3" value="107245.61" oninput="forceNumeric(this)" />
                         </div>
                     </label> <label class="input col  ">
-                        <p class="input__title">After</p>
+                        <p class="input__title">Investment Term</p>
                         <div class="input-field row">
                             <input type="text" class="input-field__input" placeholder id="after_4" value="15" oninput="forceNumeric(this)" />
                             <span class="input-field__hint">years</span>
@@ -193,7 +193,7 @@
                 </div>
                 <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-3">
                     <label class="input col  ">
-                        <p class="input__title">Return Rate</p>
+                        <p class="input__title">Interest Rate</p>
                         <div class="input-field row">
                             <input type="text" class="input-field__input" placeholder id="return_rate_3" value="6" oninput="forceNumeric(this)" />
                             <span class="input-field__hint">%</span>
@@ -235,7 +235,7 @@
                 </div>
                 <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-4">
                     <label class="input col  ">
-                        <p class="input__title">Starting Amount</p>
+                        <p class="input__title">Lump Sum Amount</p>
                         <div class="input-field row">
                             <span class="input-field__hint">R</span>
                             <input type="text" class="input-field__input" placeholder id="starting_amount_4" value="20000" oninput="forceNumeric(this)" />
@@ -244,7 +244,7 @@
                 </div>
                 <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-4">
                     <label class="input col  ">
-                        <p class="input__title">Return Rate</p>
+                        <p class="input__title">Interest Rate</p>
                         <div class="input-field row">
                             <input type="text" class="input-field__input" placeholder id="return_rate_4" value="6" oninput="forceNumeric(this)" />
                             <span class="input-field__hint">%</span>
@@ -310,7 +310,7 @@
                 </div>
                 <div class="col chart__text loan_type related-item-hidden related-to-loan_type-2">
                     <p class="result-text" id="resultC-1">End Balance: R 107,245.61</p>
-                    <p class="result-text result-text--small-loan" id="resultC">You will need an annual return rate of 6% to reach the target of R 107,245.61.</p>
+                    <p class="result-text result-text--small-loan" id="resultC">You will need an annual interest rate of 6% to reach the target of R 107,245.61.</p>
                     <p class="result-text result-text--small-loan" id="resultC-2">Total Principal: R 56,000.00</p>
                     <p class="result-text result-text--small-loan" id="resultC-3">Total Interest: R 51,245.61</p>
                 </div>
@@ -335,7 +335,7 @@
                         </div>
                         <div class="chart__donut-legend-item">
                             <div class="result-chart result-chart--purple"></div>
-                            <p class="result-text result-text--small">Principal</p>
+                            <p class="result-text result-text--small">Lump Sum</p>
                         </div>
                         <div class="chart__donut-legend-item">
                             <div class="result-chart result-chart--sky"></div>

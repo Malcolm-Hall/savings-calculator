@@ -7,7 +7,7 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-This free savings calculator considers the initial and ending balances, return rate, and investment time when evaluating various investment circumstances.
+This free savings calculator considers the initial and ending balances, interest rate, and investment time when evaluating various investment circumstances.
 
 [https://malcolm-hall.github.io/savings-calculator/](https://malcolm-hall.github.io/savings-calculator/)
 
