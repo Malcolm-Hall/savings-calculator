@@ -19,6 +19,8 @@ function calculate() {
     const years3 = input.get('after_3').positive().val();
     const compound3 = 0;
     const contribution3 = input.get('additional_contribution_3').nonNegative().lt('your_target_3').val();
+    const annualIncreaseRate3 = input.get('annual_increase_3').nonNegative().val();
+
 
     const fv4 = input.get('your_target_4').positive().val();
     const years4 = input.get('after_4').positive().val();
@@ -53,7 +55,7 @@ function calculate() {
         const result2 = calculateAmortization(pv2, years2, rate2, getCompound(compound2), contribution2, 0);
         const totalInterest = result2[result2.length - 1].totalInterest;
         const totalPrincipal = result2[result2.length - 1].totalContribution + pv;
-        output.val(`You will need to contribute ${currencyFormat(contribution2)} at the end of each month to reach the target of ${currencyFormat(fv2)}.`).set('resultB');
+        output.val(`You will need to contribute ${currencyFormat(contribution2)} at the end of each month to reach the target of ${currencyFormat(fv2)}`).set('resultB');
         output.val(`End Balance: ${currencyFormat(fv2)}`).set('resultB-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultB-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultB-3');
@@ -61,35 +63,36 @@ function calculate() {
     }
     else if (calcType === 2) {
         // Interest Rate
-        let totalContribution = contribution3 * years3 * 12;
-        let totalInvested = pv3 + totalContribution;
+        const { totalContribution } = calculateFV(pv3, years3, 0, getCompound(compound3), contribution3, annualIncreaseRate3);
+        const totalInvested = pv3 + totalContribution;
         if (totalInvested > fv3) {
             return input.error(['starting_amount_3', 'additional_contribution_3'], 'Total invested cannot be greater than future value', true);
         }
-        else {
-            let r = 0;
-            let roi = fv3 / totalInvested * 100;
-            let increment = 10;
-            let i = 0;
-            while (!r && i < 100000) {
-                let futureValue = calculateFV(pv3, years3, roi, getCompound(compound3), contribution3, 0);
-                if ((futureValue / fv3) < 0.999) {
-                    roi += increment;
-                    increment = roundTo(increment * 0.3, 4);
-                }
-                else if ((futureValue / fv3) >= 0.999 && (futureValue / fv3) <= 1.005) {
-                    r = roundTo(roi, 2);
-                }
-                else {
-                    roi -= increment;
-                }
-                i++;
+
+        let r = fv3 / totalInvested * 100;
+        let rResult = 0;
+        let increment = 10;
+        let i = 0;
+        while (!rResult && i < 100000) {
+            const { endBalance } = calculateFV(pv3, years3, r, getCompound(compound3), contribution3, annualIncreaseRate3);
+            const ratio = endBalance / fv3;
+            if (ratio < 0.999) {
+                r += increment;
+                increment = roundTo(increment * 0.3, 4);
             }
+            else if (ratio >= 0.999 && ratio <= 1.005) {
+                rResult = roundTo(r, 2);
+            }
+            else {
+                r -= increment;
+            }
+            i++;
         }
+
         const result3 = calculateAmortization(pv3, years3, r, getCompound(compound3), contribution3, 0);
         const totalInterest = result3[result3.length - 1].totalInterest;
         const totalPrincipal = result3[result3.length - 1].totalContribution + pv3;
-        output.val(`You will need an annual interest rate of ${r}% to reach the target of ${currencyFormat(fv3)}.`).set('resultC');
+        output.val(`You will need an annual interest rate of ${r.toFixed(2)}% to reach the target of ${currencyFormat(fv3)}`).set('resultC');
         output.val(`End Balance: ${currencyFormat(fv3)}`).set('resultC-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultC-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultC-3');
@@ -101,7 +104,7 @@ function calculate() {
         const result4 = calculateAmortization(pv4, years4, rate4, getCompound(compound4), contribution4, 0);
         const totalInterest = result4[result4.length - 1].totalInterest;
         const totalPrincipal = result4[result4.length - 1].totalContribution + pv4;
-        output.val(`You will need to invest ${currencyFormat(pv4)} at the beginning to reach the target of ${currencyFormat(fv4)}.`).set('resultD');
+        output.val(`You will need to invest ${currencyFormat(pv4)} at the beginning to reach the target of ${currencyFormat(fv4)}`).set('resultD');
         output.val(`End Balance: ${currencyFormat(fv4)}`).set('resultD-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultD-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultD-3');
@@ -109,37 +112,37 @@ function calculate() {
     }
     else if (calcType === 4) {
         // Investment Term
-        let totalInvested = pv5 + contribution5;
+        const totalInvested = pv5 + contribution5;
         if (totalInvested > fv5) {
             return input.error(['starting_amount_5', 'additional_contribution_5'], 'Total invested cannot be greater than future value', true);
         }
-        else {
-            let y = 0.2;
-            let yResult = 0;
-            let increment = 5;
-            let i = 0;
-            while (!yResult && i < 10000) {
-                const futureValue = calculateFV(pv5, y, rate5, getCompound(compound5), contribution5, annualIncreaseRate5);
-                const ratio = fv5 / futureValue
-                if (ratio < 0.999) {
-                    y -= increment;
-                    increment = roundTo(increment * 0.3, 3);
-                } else if (ratio >= 0.999 && ratio <= 1.005) {
-                    yResult = roundTo(y, 1);
-                } else {
-                    y += increment;
-                }
-                i++;
+
+        let y = 0.2;
+        let yResult = 0;
+        let increment = 5;
+        let i = 0;
+        while (!yResult && i < 10000) {
+            const { endBalance } = calculateFV(pv5, y, rate5, getCompound(compound5), contribution5, annualIncreaseRate5);
+            const ratio = fv5 / endBalance
+            if (ratio < 0.999) {
+                y -= increment;
+                increment = roundTo(increment * 0.3, 3);
+            } else if (ratio >= 0.999 && ratio <= 1.005) {
+                yResult = roundTo(y, 1);
+            } else {
+                y += increment;
             }
-            const result5 = calculateAmortization(pv5, yResult, rate5, getCompound(compound5), contribution5, 0);
-            const totalInterest = result5[result5.length - 1].totalInterest;
-            const totalPrincipal = result5[result5.length - 1].totalContribution + pv5;
-            output.val(`You will need to invest ${yResult} years to reach the target of ${currencyFormat(fv5)}`).set('resultE');
-            output.val(`End Balance: ${currencyFormat(fv5)}`).set('resultE-1');
-            output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultE-2');
-            output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultE-3');
-            showResult(result5, pv5);
+            i++;
         }
+
+        const result5 = calculateAmortization(pv5, yResult, rate5, getCompound(compound5), contribution5, 0);
+        const totalInterest = result5[result5.length - 1].totalInterest;
+        const totalPrincipal = result5[result5.length - 1].totalContribution + pv5;
+        output.val(`You will need to invest ${yResult.toFixed(1)} years to reach the target of ${currencyFormat(fv5)}`).set('resultE');
+        output.val(`End Balance: ${currencyFormat(fv5)}`).set('resultE-1');
+        output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultE-2');
+        output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultE-3');
+        showResult(result5, pv5);
     }
 }
 
@@ -320,8 +323,5 @@ function calculateFV(
     annualIncreaseRate = 0
 ) {
     const amortization = calculateAmortization(pv, years, rate, compound, contribution, annualIncreaseRate);
-    if (contribution) {
-        return amortization[amortization.length - 1].endBalance;
-    }
-    return false;
+    return amortization[amortization.length - 1];
 }
