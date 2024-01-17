@@ -31,6 +31,8 @@ function calculate() {
     const rate5 = input.get('return_rate_4').positive().val();
     const compound5 = input.get('compound_4').index().val();
     const contribution5 = input.get('additional_contribution_4').nonNegative().lt('your_target_4').val();
+    const annualIncreaseRate5 = input.get('annual_increase_5').nonNegative().val();
+
 
     if (!input.valid()) return;
 
@@ -70,7 +72,7 @@ function calculate() {
             var increment = 10;
             var i = 0;
             while (!r && i < 100000) {
-                let futureValue = calculateFV(pv3, years3, roi, getCompound(compound3), contribution3);
+                let futureValue = calculateFV(pv3, years3, roi, getCompound(compound3), contribution3, 0);
                 if ((futureValue / fv3) < 0.999) {
                     roi += increment;
                     increment = roundTo(increment * 0.3, 4);
@@ -106,26 +108,25 @@ function calculate() {
         showResult(result4, pv4);
     }
     else if (calcType === 4) {
-        // Investment Length
+        // Investment Term
         let totalInvested = pv5 + contribution5;
         if (totalInvested > fv5) {
             return input.error(['starting_amount_2', 'additional_contribution_4'], 'Total invested cannot be greater than future value', true);
         }
         else {
-            var y = 0.2;
-            var yResult = 0;
-            var increment = 5;
-            var i = 0;
+            let y = 0.2;
+            let yResult = 0;
+            let increment = 5;
+            let i = 0;
             while (!yResult && i < 10000) {
-                let futureValue = calculateFV(pv5, y, rate5, getCompound(compound5), contribution5);
-                if ((fv5 / futureValue) < 0.999) {
+                const futureValue = calculateFV(pv5, y, rate5, getCompound(compound5), contribution5, annualIncreaseRate5);
+                const ratio = fv5 / futureValue
+                if (ratio < 0.999) {
                     y -= increment;
                     increment = roundTo(increment * 0.3, 3);
-                }
-                else if ((fv5 / futureValue) >= 0.999 && (fv5 / futureValue) <= 1.005) {
+                } else if (ratio >= 0.999 && ratio <= 1.005) {
                     yResult = roundTo(y, 1);
-                }
-                else {
+                } else {
                     y += increment;
                 }
                 i++;
@@ -315,9 +316,10 @@ function calculateFV(
     years,
     rate,
     compound = 12,
-    contribution = 0
+    contribution = 0,
+    annualIncreaseRate = 0
 ) {
-    const amortization = calculateAmortization(pv, years, rate, compound, contribution, 0);
+    const amortization = calculateAmortization(pv, years, rate, compound, contribution, annualIncreaseRate);
     if (contribution) {
         return amortization[amortization.length - 1].endBalance;
     }
