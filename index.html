@@ -143,6 +143,15 @@
                         </div>
                     </label>
                 </div>
+                <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-1">
+                    <label class="input col">
+                        <p class="input__title">Annual Increase</p>
+                        <div class="input-field row">
+                            <input type="text" class="input-field__input" placeholder id="annual_increase_2" value="0" oninput="forceNumeric(this)" />
+                            <span class="input-field__hint">%</span>
+                        </div>
+                    </label>
+                </div>
                 <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-2">
                     <label class="input col  ">
                         <p class="input__title">Savings Goal</p>
@@ -228,6 +237,13 @@
                         <div class="input-field row">
                             <span class="input-field__hint">R</span>
                             <input type="text" class="input-field__input" placeholder id="additional_contribution_4" value="200" oninput="forceNumeric(this)" />
+                        </div>
+                    </label>
+                    <label class="input col">
+                        <p class="input__title">Annual Increase</p>
+                        <div class="input-field row">
+                            <input type="text" class="input-field__input" placeholder id="annual_increase_4" value="0" oninput="forceNumeric(this)" />
+                            <span class="input-field__hint">%</span>
                         </div>
                     </label>
                 </div>
@@ -318,7 +334,7 @@
                 </div>
                 <div class="col chart__text loan_type related-item-hidden related-to-loan_type-1">
                     <p class="result-text" id="resultB-1">End Balance: R 107,245.61</p>
-                    <p class="result-text result-text--small-loan" id="resultB">You will need to contribute R 200.00 at the end of each month to reach the target of R 107,245.61</p>
+                    <p class="result-text result-text--small-loan" id="resultB">You will need an initial monthly contribution of R 200.00 to reach the target of R 107,245.61</p>
                     <p class="result-text result-text--small-loan" id="resultB-2">Total Principal: R 56,000.00</p>
                     <p class="result-text result-text--small-loan" id="resultB-3">Total Interest: R 51,245.61</p>
                 </div>
