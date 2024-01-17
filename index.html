@@ -31,7 +31,7 @@
                             <div class="input-field row " tabindex="0">
                                 <select class="input-field__text" onchange="toggleRelatedInputs(this)" id="loan_type">
                                     <option value="End Amount"> End Amount </option>
-                                    <option value="Additional Contribution"> Additional Contribution </option>
+                                    <option value="Monthly Contribution"> Monthly Contribution </option>
                                     <option value="Return Rate"> Return Rate </option>
                                     <option value="Starting Amount"> Starting Amount </option>
                                     <option value="Investment Length"> Investment Length </option>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="input-wrapper row loan_type related-to-loan_type-0">
                     <label class="input col  ">
-                        <p class="input__title">Additional Contribution</p>
+                        <p class="input__title">Monthly Contribution</p>
                         <div class="input-field row">
                             <span class="input-field__hint">R</span>
                             <input type="text" class="input-field__input" placeholder id="additional_contribution" value="200" oninput="forceNumeric(this)" />
@@ -169,7 +169,7 @@
                 </div>
                 <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-2">
                     <label class="input col  ">
-                        <p class="input__title">Additional Contribution</p>
+                        <p class="input__title">Monthly Contribution</p>
                         <div class="input-field row">
                             <span class="input-field__hint">R</span>
                             <input type="text" class="input-field__input" placeholder id="additional_contribution_2" value="200" oninput="forceNumeric(this)" />
@@ -217,7 +217,7 @@
                 </div>
                 <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-3">
                     <label class="input col  ">
-                        <p class="input__title">Additional Contribution</p>
+                        <p class="input__title">Monthly Contribution</p>
                         <div class="input-field row">
                             <span class="input-field__hint">R</span>
                             <input type="text" class="input-field__input" placeholder id="additional_contribution_3" value="200" oninput="forceNumeric(this)" />
@@ -268,42 +268,12 @@
                 </div>
                 <div class="input-wrapper row loan_type related-item-hidden related-to-loan_type-4">
                     <label class="input col  ">
-                        <p class="input__title">Additional Contribution</p>
+                        <p class="input__title">Monthly Contribution</p>
                         <div class="input-field row">
                             <span class="input-field__hint">R</span>
                             <input type="text" class="input-field__input" placeholder id="additional_contribution_4" value="200" oninput="forceNumeric(this)" />
                         </div>
                     </label>
-                </div>
-            </div>
-            <div class="calculator-content calculator-content--options calculator-content--gray col  ">
-                <div class="calculator-content-head row">
-                    <p class="calculator-content-head__title">Options</p>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 7.29289C5.68342 6.90237 6.31658 6.90237 6.7071 7.29289L9.99999 10.5858L13.2929 7.29289C13.6834 6.90237 14.3166 6.90237 14.7071 7.29289C15.0976 7.68342 15.0976 8.31658 14.7071 8.70711L10.7071 12.7071C10.3166 13.0976 9.68341 13.0976 9.29289 12.7071L5.29289 8.70711C4.90237 8.31658 4.90237 7.68342 5.29289 7.29289Z" fill="#9CA3AF"></path>
-                    </svg>
-                </div>
-                <div class="calculator-content-body col">
-                    <div class="input-wrapper row">
-                        <label class="input col">
-                            <input type="hidden" value="end" id="contribute" />
-                            <p class="input__title">Contribute at the</p>
-                            <button class="button-switcher button-switcher--active" type="button" onclick="switcher(this, 'contribute', '')" value="end" id="contribute-a">
-                                <span class="button-switcher__text button-switcher__text--active">End</span>
-                            </button>
-                        </label>
-                        <label class="input col">
-                            <p class="input__title"></p>
-                            <button class="button-switcher" type="button" onclick="switcher(this, 'contribute', '')" value="beginning" id="contribute-b">
-                                <span class="button-switcher__text">Beginning</span>
-                            </button>
-                        </label>
-                    </div>
-                    <div class="input-wrapper row">
-                        <label class="input col">
-                            <p class="input__title">Of each month</p>
-                        </label>
-                    </div>
                 </div>
             </div>
             <div class="calculator-content calculator-content--gray calculator-content--footer calculator-content--small row  ">
