@@ -263,12 +263,12 @@ function findAmortizationParam(initialValue, initialIncrement, resultGetter) {
     let value = initialValue;
     let increment = initialIncrement;
     let i = 0;
-    while (i < 10000) {
+    while (i < 100_000) {
         const ratio = resultGetter(value);
         if (ratio < 0.999) {
             value -= increment;
             increment = roundTo(increment * 0.3, 3);
-        } else if (ratio >= 0.999 && ratio <= 1.001) {
+        } else if (ratio >= 0.995 && ratio <= 1.005) {
             return value;
         } else {
             value += increment;
