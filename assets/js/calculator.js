@@ -54,10 +54,16 @@ function calculate() {
     }
     else if (calcType === 1) {
         // Monthly Contribution
-        const contribution2 = findAmortizationParam(0, 5, (c) => {
-            const amortization = calculateFV(pv2, years2, rate2, getCompound(compound2), c, annualIncreaseRate2);
-            return fv2 / amortization.endBalance;
-        });
+        const { endBalance } = calculateFV(pv2, years2, rate2, getCompound(compound2), 0, annualIncreaseRate2);
+        let contribution2;
+        if (endBalance > fv2) {
+            contribution2 = 0;
+        } else {
+            contribution2 = findAmortizationParam(50, (c) => {
+                const amortization = calculateFV(pv2, years2, rate2, getCompound(compound2), c, annualIncreaseRate2);
+                return fv2 / amortization.endBalance;
+            });
+        }
 
         const result2 = calculateAmortization(pv2, years2, rate2, getCompound(compound2), contribution2, annualIncreaseRate2);
         const totalInterest = result2[result2.length - 1].totalInterest;
@@ -76,7 +82,7 @@ function calculate() {
             return input.error(['starting_amount_3', 'additional_contribution_3'], 'Total invested cannot be greater than your savings goal', true);
         }
 
-        const rate3 = findAmortizationParam(0, 10, (r) => {
+        const rate3 = findAmortizationParam(1, (r) => {
             const amortization = calculateFV(pv3, years3, r, getCompound(compound3), contribution3, annualIncreaseRate3);
             return fv3 / amortization.endBalance;
         });
@@ -92,10 +98,16 @@ function calculate() {
     }
     else if (calcType === 3) {
         // Lump Sum Amount
-        const pv4 = findAmortizationParam(0, 1000, (pv) => {
-            const amortization = calculateFV(pv, years4, rate4, getCompound(compound4), contribution4, annualIncreaseRate4);
-            return fv4 / amortization.endBalance;
-        });
+        const { endBalance } = calculateFV(0, years4, rate4, getCompound(compound4), contribution4, annualIncreaseRate4);
+        let pv4;
+        if (endBalance > fv4) {
+            pv4 = 0;
+        } else {
+            pv4 = findAmortizationParam(5000, (pv) => {
+                const amortization = calculateFV(pv, years4, rate4, getCompound(compound4), contribution4, annualIncreaseRate4);
+                return fv4 / amortization.endBalance;
+            });
+        }
 
         const result4 = calculateAmortization(pv4, years4, rate4, getCompound(compound4), contribution4, 0);
         const totalInterest = result4[result4.length - 1].totalInterest;
@@ -113,7 +125,7 @@ function calculate() {
             return input.error(['starting_amount_5', 'additional_contribution_5'], 'Total invested cannot be greater than your savings goal', true);
         }
 
-        const years5 = findAmortizationParam(0.2, 5, (y) => {
+        const years5 = findAmortizationParam(1, (y) => {
             const amortization = calculateFV(pv5, y, rate5, getCompound(compound5), contribution5, annualIncreaseRate5);
             return fv5 / amortization.endBalance;
         });
@@ -259,24 +271,38 @@ function calculateAmortization(
     return amortization;
 }
 
-function findAmortizationParam(initialValue, initialIncrement, resultGetter) {
-    let value = initialValue;
-    let increment = initialIncrement;
-    let i = 0;
-    while (i < 100_000) {
-        const ratio = resultGetter(value);
-        if (ratio < 0.999) {
-            value -= increment;
-            increment = roundTo(increment * 0.3, 3);
-        } else if (ratio >= 0.995 && ratio <= 1.005) {
-            return value;
-        } else {
-            value += increment;
+function findAmortizationParam(
+    initialIncrement,
+    resultGetter
+) {
+    let delta = 0.00005;
+    for (let d = 0; d < 12; d++) {
+        let dm = 1 - delta;
+        let dp = 1 + delta;
+        for (let r = 0; r <= 10; r++) {
+            let value = 0.1;
+            let increment = initialIncrement * Math.pow(2, r);
+            for (let i = 0; i < 1000; i++) {
+                const ratio = resultGetter(value);
+                if (ratio < dm) {
+                    value -= increment;
+                    increment = increment / 2;
+                } else if (ratio >= dm && ratio <= dp) {
+                    if (value < 0) {
+                        input.error([], 'Please check the input values are reasonable', true);
+                        return 0;
+                    }
+                    return value;
+                } else {
+                    value += increment;
+                }
+            }
         }
-        i++;
+        delta += delta;
     }
 
-    throw Error("Couldn't determine amortization param: " + value);
+    input.error([], 'Please check the input values are reasonable', true);
+    return 0;
 }
 
 function currencyFormat(num) {
