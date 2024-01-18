@@ -84,24 +84,6 @@ window.input = {
         this.list.append(element);
         if (last) this.processed = true;
     },
-    // sometimes it's complicated to check input values
-    // so we're checking `calc` result for an erroneous result, show exception and return
-    // e.g.: try{calc(...);}catch(e){input.exception(field{s},e);return;} 
-    exception(inputId, message) {
-        if (typeof message != 'string') {
-            let error = '';
-            if (message instanceof Error) {
-                error = message.toString();
-            }
-            // default message
-            if (Array.isArray(inputId) && inputId.length == 0) {
-                message = `${error}`;
-            } else {
-                message = `Value${Array.isArray(inputId) ? 's' : ` "${this.get(inputId).value}"`} of "${inputId}" ${Array.isArray(inputId) ? 'are' : 'is'} invalid.<br/>${error}`;
-            }
-        }
-        return this.error(inputId, message, true);
-    },
     valid: function () {
         if (!this.shown || this.processed) this.reset();
         this.processed = true;
@@ -263,24 +245,6 @@ window.input = {
         this.lt(0, errorText);
         return this;
     },
-    scientific: function (errorText = `The ${this.elementId} must be in scientific notation.`) {
-        if (!this.value.match(/^(-|\+)?((0|[1-9]\d*)(\.\d*)?|(\.\d+))((e|\s?(\*|x)\s?10\^)(-|\+)?(0|[1-9]\d*))?$/i)) this.error(this.elementId, errorText);
-        return this;
-    },
-    periodic: function (errorText = `The ${this.elementId} must be regular or periodic number.`) {
-        if (this.value === '' || isNaN(Number(this.value)) && !this.value.match(/\.\d*\(\d+\)$/)) this.error(this.elementId, errorText);
-        return this;
-    },
-    time: function (format = 'hh:mm:ss', errorText = `The ${this.elementId} must be in format ${format}.`) {
-        let regex = new RegExp("^" + format.replace(/[\:\-\/\\]/g, '\\$&').replace(/h|m|s/g, '\\d') + "$");
-        if (!this.value.match(regex) || isNaN(this.value = new Date(`1900-01-01 ${this.value}`))) this.error(this.elementId, errorText);
-        return this;
-    },
-    date: function (format = 'yyyy-mm-dd', errorText = `The ${this.elementId} is required field.`) {
-        let regex = new RegExp("^" + format.replace(/[\:\-\/\\]/g, '\\$&').replace(/y|m|d|h|s/g, '\\d') + "$");
-        if (!this.value.match(regex) || isNaN(this.value = new Date(this.value))) this.error(this.elementId, errorText);
-        return this;
-    },
     bool: function () {
         return !!this.value;
     },
@@ -293,32 +257,7 @@ window.input = {
     },
     raw: function () {
         return this.value;
-    },
-    group(name, ids) {
-        const result = ids.split('|')
-            .reduce((result, ids) => {
-                const obj = ids.split('.').every(id => _(name + id.match(/^[_a-zA-Z]+/)[0]).value) ?
-                    ids.split('.').reduce((obj, id) => {
-                        let type = 'number';
-                        let getter = 'val';
-                        switch ((id.match(/[^_a-zA-Z]+$/) || [])[0]) {
-                            case '+': type = 'positive'; break;
-                            case '!0': type = 'nonZero'; break;
-                            case '#': getter = 'raw'; break;
-                            default: /* custom modificator */; break;
-                        }
-                        id = id.match(/^[_a-zA-Z]+/)[0];
-                        return {
-                            ...obj, ...{
-                                [id]: input.get(name + id)[type]()[getter]()
-                            }
-                        };
-                    }, {}) : null;
-                if (!result && !obj) return null;
-                return { ...result, ...obj };
-            }, null);
-        return result;
-    },
+    }
 }
 
 window.roundTo = function (num, decimals = 5) {
