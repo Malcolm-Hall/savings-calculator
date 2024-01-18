@@ -160,7 +160,7 @@ function showResult(result, principal) {
         annualContribution += item.contributionAmount;
         if ((index + 1) % 12 === 0 || (index + 1) === result.length) {
             let title = 'Year #{1} End'.replace('{1}', Math.ceil((index + 1) / 12).toString());
-            monthlyResultsHtml += `<th class="indigo text-center" colspan="5">${title}</th>`;
+            monthlyResultsHtml += `<th class="white text-center" colspan="5">${title}</th>`;
         }
         if ((index + 1) % 12 === 0 || (index + 1) === result.length) {
             annualResults.push({

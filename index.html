@@ -24,6 +24,7 @@
 <body>
     <div class="calculator-settings">
         <div class="calculator-setting" id="calculator_form">
+            <p class="table-cell table-cell--dark table-cell--only-title">Savings Calculator</p>
             <div class="calculator-content col">
                 <div class="input-wrapper row">
                     <label class="input col ">
@@ -305,9 +306,11 @@
                         </div>
                     </label>
                 </div>
-            </div>
-            <div class="calculator-content calculator-content--gray calculator-content--footer calculator-content--small row  ">
-                <button class="button button--primary ml-auto" onclick="calculate(this)">Calculate</button>
+                <div class="input-wrapper row loan_type">
+                    <div class="button--primary__wrapper">
+                        <button class="button button--primary ml-auto" onclick="calculate(this)">Calculate</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -325,7 +328,7 @@
     </div>
     <span id="calculator_result">
         <div class="calculator-result col">
-            <p class="table-cell table-cell--dark table-cell--only-title">Investment</p>
+            <p class="table-cell table-cell--dark table-cell--only-title">Investment Results</p>
             <div class="table-cell table-cell--age table-cell--only row">
                 <div class="col chart__text loan_type related-to-loan_type-0">
                     <p class="result-text" id="resultA-1">End Balance: R 107,245.61</p>
@@ -360,16 +363,16 @@
                     <canvas id="chartDonutBig" class="chart chart--donut" width="220px" height="220px"></canvas>
                     <div class="chart__donut-legend chart__donut-legend--col">
                         <div class="chart__donut-legend-item">
-                            <div class="result-chart result-chart--yellow"></div>
+                            <div class="result-chart result-chart--secondary"></div>
                             <p class="result-text result-text--small">Interest</p>
                         </div>
                         <div class="chart__donut-legend-item">
-                            <div class="result-chart result-chart--purple"></div>
-                            <p class="result-text result-text--small">Lump Sum</p>
+                            <div class="result-chart result-chart--primary-light"></div>
+                            <p class="result-text result-text--small">Contributions</p>
                         </div>
                         <div class="chart__donut-legend-item">
-                            <div class="result-chart result-chart--sky"></div>
-                            <p class="result-text result-text--small">Contributions</p>
+                            <div class="result-chart result-chart--primary"></div>
+                            <p class="result-text result-text--small">Lump Sum</p>
                         </div>
                     </div>
                 </div>
@@ -387,18 +390,18 @@
                 <button class="result-table__open">
                     <p class="result-table__open-text">Annual Amortization Schedule</p>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 7.29289C5.68342 6.90237 6.31658 6.90237 6.7071 7.29289L9.99999 10.5858L13.2929 7.29289C13.6834 6.90237 14.3166 6.90237 14.7071 7.29289C15.0976 7.68342 15.0976 8.31658 14.7071 8.70711L10.7071 12.7071C10.3166 13.0976 9.68341 13.0976 9.29289 12.7071L5.29289 8.70711C4.90237 8.31658 4.90237 7.68342 5.29289 7.29289Z" fill="#312E81"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 7.29289C5.68342 6.90237 6.31658 6.90237 6.7071 7.29289L9.99999 10.5858L13.2929 7.29289C13.6834 6.90237 14.3166 6.90237 14.7071 7.29289C15.0976 7.68342 15.0976 8.31658 14.7071 8.70711L10.7071 12.7071C10.3166 13.0976 9.68341 13.0976 9.29289 12.7071L5.29289 8.70711C4.90237 8.31658 4.90237 7.68342 5.29289 7.29289Z" fill="#FFFFFF"></path>
                     </svg>
                 </button>
                 <div class="result-table__wrapper">
                     <table class="result-table">
                         <thead>
                             <tr>
-                                <th class="indigo text-center">№</th>
-                                <th class="indigo">BEGINNING BALANCE</th>
-                                <th class="indigo">INTEREST</th>
-                                <th class="indigo">CONTRIBUTION</th>
-                                <th class="indigo">ENDING BALANCE</th>
+                                <th class="white text-center">№</th>
+                                <th class="white">BEGINNING BALANCE</th>
+                                <th class="white">INTEREST</th>
+                                <th class="white">CONTRIBUTION</th>
+                                <th class="white">ENDING BALANCE</th>
                             </tr>
                         </thead>
                         <tbody id="annual-results">
@@ -515,18 +518,18 @@
                 <button class="result-table__open">
                     <p class="result-table__open-text">Monthly Amortization Schedule</p>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 7.29289C5.68342 6.90237 6.31658 6.90237 6.7071 7.29289L9.99999 10.5858L13.2929 7.29289C13.6834 6.90237 14.3166 6.90237 14.7071 7.29289C15.0976 7.68342 15.0976 8.31658 14.7071 8.70711L10.7071 12.7071C10.3166 13.0976 9.68341 13.0976 9.29289 12.7071L5.29289 8.70711C4.90237 8.31658 4.90237 7.68342 5.29289 7.29289Z" fill="#312E81"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 7.29289C5.68342 6.90237 6.31658 6.90237 6.7071 7.29289L9.99999 10.5858L13.2929 7.29289C13.6834 6.90237 14.3166 6.90237 14.7071 7.29289C15.0976 7.68342 15.0976 8.31658 14.7071 8.70711L10.7071 12.7071C10.3166 13.0976 9.68341 13.0976 9.29289 12.7071L5.29289 8.70711C4.90237 8.31658 4.90237 7.68342 5.29289 7.29289Z" fill="#FFFFFF"></path>
                     </svg>
                 </button>
                 <div class="result-table__wrapper">
                     <table class="result-table">
                         <thead>
                             <tr>
-                                <th class="indigo text-center">№</th>
-                                <th class="indigo">BEGINNING BALANCE</th>
-                                <th class="indigo">INTEREST</th>
-                                <th class="indigo">CONTRIBUTION</th>
-                                <th class="indigo">ENDING BALANCE</th>
+                                <th class="white text-center">№</th>
+                                <th class="white">BEGINNING BALANCE</th>
+                                <th class="white">INTEREST</th>
+                                <th class="white">CONTRIBUTION</th>
+                                <th class="white">ENDING BALANCE</th>
                             </tr>
                         </thead>
                         <tbody id="monthly-results">
@@ -615,7 +618,7 @@
                                 <td>R 23,700.67</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #1 End</th>
+                                <th class="white text-center" colspan="5">Year #1 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">13</td>
@@ -702,7 +705,7 @@
                                 <td>R 27,629.59</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #2 End</th>
+                                <th class="white text-center" colspan="5">Year #2 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">25</td>
@@ -789,7 +792,7 @@
                                 <td>R 31,800.83</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #3 End</th>
+                                <th class="white text-center" colspan="5">Year #3 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">37</td>
@@ -876,7 +879,7 @@
                                 <td>R 36,229.35</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #4 End</th>
+                                <th class="white text-center" colspan="5">Year #4 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">49</td>
@@ -963,7 +966,7 @@
                                 <td>R 40,931.01</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #5 End</th>
+                                <th class="white text-center" colspan="5">Year #5 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">61</td>
@@ -1050,7 +1053,7 @@
                                 <td>R 45,922.66</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #6 End</th>
+                                <th class="white text-center" colspan="5">Year #6 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">73</td>
@@ -1137,7 +1140,7 @@
                                 <td>R 51,222.18</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #7 End</th>
+                                <th class="white text-center" colspan="5">Year #7 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">85</td>
@@ -1224,7 +1227,7 @@
                                 <td>R 56,848.56</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #8 End</th>
+                                <th class="white text-center" colspan="5">Year #8 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">97</td>
@@ -1311,7 +1314,7 @@
                                 <td>R 62,821.97</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #9 End</th>
+                                <th class="white text-center" colspan="5">Year #9 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">109</td>
@@ -1398,7 +1401,7 @@
                                 <td>R 69,163.80</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #10 End</th>
+                                <th class="white text-center" colspan="5">Year #10 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">121</td>
@@ -1485,7 +1488,7 @@
                                 <td>R 75,896.79</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #11 End</th>
+                                <th class="white text-center" colspan="5">Year #11 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">133</td>
@@ -1572,7 +1575,7 @@
                                 <td>R 83,045.05</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #12 End</th>
+                                <th class="white text-center" colspan="5">Year #12 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">145</td>
@@ -1659,7 +1662,7 @@
                                 <td>R 90,634.20</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #13 End</th>
+                                <th class="white text-center" colspan="5">Year #13 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">157</td>
@@ -1746,7 +1749,7 @@
                                 <td>R 98,691.43</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #14 End</th>
+                                <th class="white text-center" colspan="5">Year #14 End</th>
                             </tr>
                             <tr>
                                 <td class="text-center">169</td>
@@ -1833,7 +1836,7 @@
                                 <td>R 107,245.61</td>
                             </tr>
                             <tr>
-                                <th class="indigo text-center" colspan="5">Year #15 End</th>
+                                <th class="white text-center" colspan="5">Year #15 End</th>
                             </tr>
                         </tbody>
                     </table>
