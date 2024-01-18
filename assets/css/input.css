@@ -250,20 +250,26 @@ html[dir=rtl] .input__title {
     cursor: default
 }
 
+.button--primary__wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+}
+
 .button--primary {
-    background-color: #5045e5;
-    border: 1px solid #5045e5;
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
     color: #fff
 }
 
 .button--primary:hover:not(:disabled):not(:active) {
-    background-color: #4338ca
+    background-color: var(--primary-light);
 }
 
 .button--primary:active {
     transition: 0s;
-    background-color: #6366f1;
-    border-color: #6366f1
+    background-color: var(--primary-color);
+    border-color: var(--primary-color)
 }
 
 .calculator-settings {
@@ -284,7 +290,8 @@ html[dir=rtl] .input__title {
 
 .calculator-content {
     padding: 32px;
-    background-color: #fff;
+    background-color: var(--white);
+    border: var(--border-color) solid 1px;
     gap: 20px 16px
 }
 

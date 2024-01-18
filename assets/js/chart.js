@@ -23,22 +23,9 @@ const customDataLabels = {
 };
 
 const colors = {
-    purple: '#A78BFA',
-    yellow: '#FBBF24',
-    sky: '#7DD3FC',
-    blue: '#1D4ED8',
-    red: '#F87171',
-    textColor: '#6B7280',
-    yellowGradientStart: 'rgba(250, 219, 139, 0.33)',
-    purpleGradientStart: 'rgba(104, 56, 248, 0.16)',
-    skyGradientStart: 'rgba(56, 187, 248, 0.16)',
-    tealGradientStart: 'rgba(56, 248, 222, 0.16)',
-    yellowGradientStop: 'rgba(250, 219, 139, 0)',
-    purpleGradientStop: 'rgba(104, 56, 248, 0)',
-    skyGradientStop: 'rgba(56, 248, 222, 0.16)',
-    gridColor: '#DBEAFE',
-    tooltipBackground: '#fff',
-    fractionColor: '#EDE9FE',
+    primary: '#162953',
+    primaryLight: '#25468d',
+    secondary: '#00ABD0',
 };
 
 const tooltip = {
@@ -112,7 +99,7 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
         {
             data: [48, 19, 34],
             labels: ['48%', '19%', '34%'],
-            backgroundColor: [colors.yellow, colors.purple, colors.sky],
+            backgroundColor: [colors.primaryLight, colors.primary, colors.secondary],
             borderColor: '#DDD6FE',
             borderWidth: 0,
         },
@@ -142,21 +129,6 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
         plugins: [customDataLabels],
     });
 
-    let ctx = _('chartLoan').getContext('2d');
-
-    const yellowGradient = ctx.createLinearGradient(0, 0, 0, 1024);
-    yellowGradient.addColorStop(0, colors.yellowGradientStart);
-    yellowGradient.addColorStop(1, colors.yellowGradientStop);
-
-    const purpleGradient = ctx.createLinearGradient(0, 0, 0, 1024);
-    purpleGradient.addColorStop(0, colors.purpleGradientStart);
-    purpleGradient.addColorStop(1, colors.purpleGradientStop);
-
-
-    const skyGradient = ctx.createLinearGradient(0, 0, 0, 1024);
-    skyGradient.addColorStop(0, colors.skyGradientStart);
-    skyGradient.addColorStop(1, colors.skyGradientStop);
-
     const barChartData = {
         labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
         datasets: [
@@ -180,12 +152,7 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
                     20_000
                 ],
                 order: 1,
-                pointHoverBackgroundColor: '#FFFFFF',
-                pointHoverBorderWidth: 2,
-                pointHoverRadius: 6,
-                pointHoverBorderColor: '#5045E5',
-                borderColor: colors.purple,
-                backgroundColor: purpleGradient,
+                backgroundColor: colors.primary,
                 fill: true,
             },
             {
@@ -208,12 +175,7 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
                     51246
                 ],
                 order: 2,
-                pointHoverBackgroundColor: '#FFFFFF',
-                pointHoverBorderWidth: 2,
-                pointHoverRadius: 6,
-                pointHoverBorderColor: '#5045E5',
-                borderColor: colors.yellow,
-                backgroundColor: yellowGradient,
+                backgroundColor: colors.primaryLight,
                 fill: true,
             },
             {
@@ -236,12 +198,7 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
                     36000,
                 ],
                 order: 3,
-                pointHoverBackgroundColor: '#FFFFFF',
-                pointHoverBorderWidth: 2,
-                pointHoverRadius: 6,
-                pointHoverBorderColor: '#5045E5',
-                borderColor: colors.sky,
-                backgroundColor: skyGradient,
+                backgroundColor: colors.secondary,
                 fill: true,
             },
         ],
