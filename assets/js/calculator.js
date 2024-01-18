@@ -19,7 +19,7 @@ function calculate() {
     const fv3 = input.get('your_target_3').positive().val();
     const pv3 = input.get('starting_amount_3').nonNegative().lt('your_target_3').val();
     const years3 = input.get('after_3').positive().val();
-    const compound3 = 0;
+    const compound3 = input.get('compound_3').index().val();
     const contribution3 = input.get('additional_contribution_3').nonNegative().lt('your_target_3').val();
     const annualIncreaseRate3 = input.get('annual_increase_3').nonNegative().val();
 
