@@ -87,7 +87,7 @@ function calculate() {
             return fv3 / amortization.endBalance;
         });
 
-        const result3 = calculateAmortization(pv3, years3, rate3, getCompound(compound3), contribution3, 0);
+        const result3 = calculateAmortization(pv3, years3, rate3, getCompound(compound3), contribution3, annualIncreaseRate3);
         const totalInterest = result3[result3.length - 1].totalInterest;
         const totalPrincipal = result3[result3.length - 1].totalContribution + pv3;
         output.val(`You will need an annual interest rate of ${rate3.toFixed(2)}% to reach the target of ${currencyFormat(fv3)}`).set('resultC');
@@ -109,7 +109,7 @@ function calculate() {
             });
         }
 
-        const result4 = calculateAmortization(pv4, years4, rate4, getCompound(compound4), contribution4, 0);
+        const result4 = calculateAmortization(pv4, years4, rate4, getCompound(compound4), contribution4, annualIncreaseRate4);
         const totalInterest = result4[result4.length - 1].totalInterest;
         const totalPrincipal = result4[result4.length - 1].totalContribution + pv4;
         output.val(`You will need to invest ${currencyFormat(pv4)} at the beginning to reach the target of ${currencyFormat(fv4)}`).set('resultD');
