@@ -64,7 +64,7 @@ function calculate() {
         if (endBalance > fv2) {
             contribution2 = 0;
         } else {
-            contribution2 = findAmortizationParam(50, (c) => {
+            contribution2 = findMoneyParam(50, (c) => {
                 const amortization = calculateFV(pv2, years2, rate2, getCompound(compound2), c, annualIncreaseRate2);
                 return fv2 / amortization.endBalance;
             });
@@ -73,8 +73,9 @@ function calculate() {
         const result2 = calculateAmortization(pv2, years2, rate2, getCompound(compound2), contribution2, annualIncreaseRate2);
         const totalInterest = result2[result2.length - 1].totalInterest;
         const totalPrincipal = result2[result2.length - 1].totalContribution + pv;
-        output.val(`You will need an initial monthly contribution of ${currencyFormat(contribution2)} to reach the target of ${currencyFormat(fv2)}`).set('resultB');
-        output.val(`End Balance: ${currencyFormat(fv2)}`).set('resultB-1');
+        const trueFv = result2[result2.length - 1].endBalance;
+        output.val(`You will need to contribute ${currencyFormat(contribution2)} per month escalating at ${annualIncreaseRate2}% to reach your savings goal of ${currencyFormat(fv2)}`).set('resultB');
+        output.val(`End Balance: ${currencyFormat(trueFv)}`).set('resultB-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultB-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultB-3');
         showResult(result2, pv2);
@@ -96,8 +97,9 @@ function calculate() {
         const result3 = calculateAmortization(pv3, years3, rate3, getCompound(compound3), contribution3, annualIncreaseRate3);
         const totalInterest = result3[result3.length - 1].totalInterest;
         const totalPrincipal = result3[result3.length - 1].totalContribution + pv3;
-        output.val(`You will need an annual interest rate of ${rate3.toFixed(2)}% to reach the target of ${currencyFormat(fv3)}`).set('resultC');
-        output.val(`End Balance: ${currencyFormat(fv3)}`).set('resultC-1');
+        const trueFv = result3[result3.length - 1].endBalance;
+        output.val(`You will need an annual interest rate of ${rate3.toFixed(3)}% to reach your savings goal of ${currencyFormat(fv3)}`).set('resultC');
+        output.val(`End Balance: ${currencyFormat(trueFv)}`).set('resultC-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultC-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultC-3');
         showResult(result3, pv3);
@@ -109,7 +111,7 @@ function calculate() {
         if (endBalance > fv4) {
             pv4 = 0;
         } else {
-            pv4 = findAmortizationParam(5000, (pv) => {
+            pv4 = findMoneyParam(5000, (pv) => {
                 const amortization = calculateFV(pv, years4, rate4, getCompound(compound4), contribution4, annualIncreaseRate4);
                 return fv4 / amortization.endBalance;
             });
@@ -118,8 +120,9 @@ function calculate() {
         const result4 = calculateAmortization(pv4, years4, rate4, getCompound(compound4), contribution4, annualIncreaseRate4);
         const totalInterest = result4[result4.length - 1].totalInterest;
         const totalPrincipal = result4[result4.length - 1].totalContribution + pv4;
-        output.val(`You will need to invest ${currencyFormat(pv4)} at the beginning to reach the target of ${currencyFormat(fv4)}`).set('resultD');
-        output.val(`End Balance: ${currencyFormat(fv4)}`).set('resultD-1');
+        const trueFv = result4[result4.length - 1].endBalance;
+        output.val(`You will need to invest ${currencyFormat(pv4)} at the beginning to reach your savings goal of ${currencyFormat(fv4)}`).set('resultD');
+        output.val(`End Balance: ${currencyFormat(trueFv)}`).set('resultD-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultD-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultD-3');
         showResult(result4, pv4);
@@ -140,7 +143,7 @@ function calculate() {
             })
 
             if (!yFound) {
-                years5 = findAmortizationParam(1, (y) => {
+                years5 = findInvestmentTerm((y) => {
                     const amortization = calculateFV(pv5, y, rate5, getCompound(compound5), contribution5, annualIncreaseRate5);
                     return fv5 / amortization.endBalance;
                 });
@@ -150,8 +153,9 @@ function calculate() {
         const result5 = calculateAmortization(pv5, years5, rate5, getCompound(compound5), contribution5, annualIncreaseRate5);
         const totalInterest = result5[result5.length - 1].totalInterest;
         const totalPrincipal = result5[result5.length - 1].totalContribution + pv5;
-        output.val(`You will need to invest ${years5.toFixed(1)} years to reach the target of ${currencyFormat(fv5)}`).set('resultE');
-        output.val(`End Balance: ${currencyFormat(fv5)}`).set('resultE-1');
+        const trueFv = result5[result5.length - 1].endBalance;
+        output.val(`You will need to invest ${years5.toFixed(1)} years to reach your savings goal of ${currencyFormat(fv5)}`).set('resultE');
+        output.val(`End Balance: ${currencyFormat(trueFv)}`).set('resultE-1');
         output.val(`Total Principal: ${currencyFormat(totalPrincipal)}`).set('resultE-2');
         output.val(`Total Interest: ${currencyFormat(totalInterest)}`).set('resultE-3');
         showResult(result5, pv5);
@@ -283,15 +287,19 @@ function calculateAmortization(
     return amortization;
 }
 
+const DELTA = 0.0000000001;
+const RETRY_COUNT = 10;
+const DELTA_COUNT = 18;
+
 function findAmortizationParam(
     initialIncrement,
     resultGetter
 ) {
-    let delta = 0.00005;
-    for (let d = 0; d < 12; d++) {
+    let delta = DELTA;
+    for (let d = 0; d < DELTA_COUNT; d++) {
         let dm = 1 - delta;
-        let dp = 1 + delta;
-        for (let r = 0; r <= 10; r++) {
+        let dp = 1;
+        for (let r = 0; r <= RETRY_COUNT; r++) {
             let value = 0.1;
             let increment = initialIncrement * Math.pow(2, r);
             for (let i = 0; i < 1000; i++) {
@@ -315,6 +323,33 @@ function findAmortizationParam(
 
     input.error([], 'Please check the input values are reasonable', true);
     return 0;
+}
+
+function findMoneyParam(
+    initialIncrement,
+    resultGetter
+) {
+    const v0 = resultGetter(0.00);
+    const v1 = resultGetter(0.01);
+    const v2 = resultGetter(0.02);
+
+    if (v0 <= 1) return 0;
+    if (v1 <= 1) return 0.01;
+    if (v2 <= 1) return 0.02;
+
+    return findAmortizationParam(initialIncrement, resultGetter);
+}
+
+function findInvestmentTerm(resultGetter) {
+    for (let m = 1; m <= 1000 * 12; m++) {
+        const ratio = resultGetter(m / 12);
+        if (ratio <= 1) {
+            return m / 12;
+        }
+    }
+
+    input.error([], 'Please check the input values are reasonable', true);
+    return 1 / 12;
 }
 
 function calculateFV(
