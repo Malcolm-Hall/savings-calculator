@@ -146,33 +146,36 @@ function showResult(result, principal) {
     let chartData = [[], [], [], []];
     let annualInterest = 0;
     let annualContribution = 0;
+    let annualStartBalance = result[0] ? result[0].startBalance : undefined;
     let monthlyResultsHtml = '';
     let annualResultsHtml = '';
     result.forEach((item, index) => {
         monthlyResultsHtml += `<tr>
             <td class="text-center">${index + 1}</td>
             <td>${currencyFormat(item.startBalance)}</td>
-            <td>${currencyFormat(item.interestPayment)}</td>
             <td>${currencyFormat(item.contributionAmount)}</td>
+            <td>${currencyFormat(item.interestPayment)}</td>
             <td>${currencyFormat(item.endBalance)}</td>
         </tr>`;
+
         annualInterest += item.interestPayment;
         annualContribution += item.contributionAmount;
+        if (annualStartBalance === undefined) annualStartBalance = item.startBalance;
+
         if ((index + 1) % 12 === 0 || (index + 1) === result.length) {
-            let title = 'Year #{1} End'.replace('{1}', Math.ceil((index + 1) / 12).toString());
+            const title = 'Year #{1} End'.replace('{1}', Math.ceil((index + 1) / 12).toString());
             monthlyResultsHtml += `<th class="white text-center" colspan="5">${title}</th>`;
-        }
-        if ((index + 1) % 12 === 0 || (index + 1) === result.length) {
             annualResults.push({
                 "interestPayment": annualInterest,
                 "contribution": annualContribution,
                 "endBalance": item.endBalance,
-                "startBalance": item.startBalance,
+                "startBalance": annualStartBalance,
                 "totalInterest": item.totalInterest,
                 "totalContributions": item.totalContribution,
             });
             annualInterest = 0;
             annualContribution = 0;
+            annualStartBalance = undefined;
         }
     });
     const years = Math.ceil(result.length / 12);
@@ -187,8 +190,8 @@ function showResult(result, principal) {
         annualResultsHtml += `<tr>
             <td class="text-center">${index + 1}</td>
             <td>${currencyFormat(r.startBalance)}</td>
-            <td>${currencyFormat(r.interestPayment)}</td>
             <td>${currencyFormat(r.contribution)}</td>
+            <td>${currencyFormat(r.interestPayment)}</td>
             <td>${currencyFormat(r.endBalance)}</td>
     </tr>`;
         chartData[0].push((index + 1));
@@ -247,10 +250,11 @@ function calculateAmortization(
     let totalContribution = 0;
     let totalInterest = 0;
     for (let i = 1; i <= months; i++) {
+        const startBalance = balance;
+
         balance += contribution;
         totalContribution += contribution;
 
-        const startBalance = balance;
         const interestPayment = balance * ratePayB;
         totalInterest += interestPayment;
         balance += interestPayment;
