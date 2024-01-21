@@ -30,6 +30,11 @@ window.toggleRelatedInputs = function (element, id, action) {
     });
 }
 
+window.toggleCalculationType = function (element, id, action) {
+    toggleRelatedInputs(element, id, action);
+    calculate();
+}
+
 window.forceNumeric = function (input) {
     input.value = input.value
         .replace(/[^0-9.]/g, '')
@@ -267,4 +272,9 @@ window.roundTo = function (num, decimals = 5) {
         return roundTo(+splitted[0], decimals) + `e${splitted[1]}`;
     };
     return +(Math.round(num + `e+${decimals}`) + `e-${decimals}`);
+}
+
+
+window.currencyFormat = function (num) {
+    return 'R ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }

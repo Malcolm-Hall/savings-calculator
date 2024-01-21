@@ -25,7 +25,7 @@ const customDataLabels = {
 const colors = {
     primary: '#162953',
     primaryLight: '#25468d',
-    secondary: '#00ABD0',
+    secondary: '#00ABD0'
 };
 
 const tooltip = {
@@ -97,11 +97,10 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
 
     const pieChartData = [
         {
-            data: [48, 19, 34],
-            labels: ['48%', '19%', '34%'],
-            backgroundColor: [colors.primaryLight, colors.primary, colors.secondary],
-            borderColor: '#DDD6FE',
-            borderWidth: 0,
+            data: [4, 61, 35],
+            backgroundColor: [colors.primary, colors.primaryLight, colors.secondary],
+            borderColor: colors.primary,
+            borderWidth: 0.5,
         },
     ];
 
@@ -130,77 +129,73 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
     });
 
     const barChartData = {
-        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        labels: [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+        ],
         datasets: [
             {
                 label: 'Lump Sum',
                 data: [
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000,
-                    20_000
+                    5000,
+                    5000,
+                    5000,
+                    5000,
+                    5000,
+                    5000,
+                    5000,
+                    5000,
+                    5000,
+                    5000
                 ],
                 order: 1,
                 backgroundColor: colors.primary,
                 fill: true,
             },
             {
-                label: 'Interest',
+                label: 'Contributions',
                 data: [
-                    1301,
-                    2830,
-                    4601,
-                    6629,
-                    8931,
-                    11523,
-                    14422,
-                    17649,
-                    21222,
-                    25164,
-                    29497,
-                    34245,
-                    39434,
-                    45091,
-                    51246
+                    6000,
+                    12300,
+                    18915,
+                    25861,
+                    33154,
+                    40811,
+                    48852,
+                    57295,
+                    66159,
+                    75467
                 ],
                 order: 2,
                 backgroundColor: colors.primaryLight,
                 fill: true,
             },
             {
-                label: 'Contributions',
+                label: 'Interest',
                 data: [
-                    2400,
-                    4800,
-                    7200,
-                    9600,
-                    12000,
-                    14400,
-                    16800,
-                    19200,
-                    21600,
-                    24000,
-                    26400,
-                    28800,
-                    31200,
-                    33600,
-                    36000,
+                    681,
+                    1931,
+                    3821,
+                    6431,
+                    9850,
+                    14175,
+                    19511,
+                    25975,
+                    33695,
+                    42811
                 ],
                 order: 3,
                 backgroundColor: colors.secondary,
                 fill: true,
-            },
+            }
         ],
     };
 
@@ -222,23 +217,16 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
             scales: {
                 y: {
                     stacked: true,
-                    grid: {
-                        display: false
-                    },
                     ticks: {
-                        display: false
-                    },
-                    border: {
-                        display: false,
+                        callback: currencyFormat,
                     },
                 },
                 x: {
                     stacked: true,
-                    border: {
-                        display: false
-                    },
                     ticks: {
-                        display: false
+                        callback: function (value, index, ticks) {
+                            return value + 1;
+                        }
                     },
                     grid: {
                         display: false
