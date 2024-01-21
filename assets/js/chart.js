@@ -25,7 +25,7 @@ const customDataLabels = {
 const colors = {
     primary: '#162953',
     primaryLight: '#25468d',
-    secondary: '#00ABD0',
+    secondary: '#00ABD0'
 };
 
 const tooltip = {
@@ -97,10 +97,10 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
 
     const pieChartData = [
         {
-            data: [35, 4, 61],
-            backgroundColor: [colors.primaryLight, colors.primary, colors.secondary],
-            borderColor: '#DDD6FE',
-            borderWidth: 0,
+            data: [4, 61, 35],
+            backgroundColor: [colors.primary, colors.primaryLight, colors.secondary],
+            borderColor: colors.primary,
+            borderWidth: 0.5,
         },
     ];
 
@@ -161,24 +161,6 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
                 fill: true,
             },
             {
-                label: 'Interest',
-                data: [
-                    681,
-                    1931,
-                    3821,
-                    6431,
-                    9850,
-                    14175,
-                    19511,
-                    25975,
-                    33695,
-                    42811
-                ],
-                order: 2,
-                backgroundColor: colors.primaryLight,
-                fill: true,
-            },
-            {
                 label: 'Contributions',
                 data: [
                     6000,
@@ -192,10 +174,28 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
                     66159,
                     75467
                 ],
+                order: 2,
+                backgroundColor: colors.primaryLight,
+                fill: true,
+            },
+            {
+                label: 'Interest',
+                data: [
+                    681,
+                    1931,
+                    3821,
+                    6431,
+                    9850,
+                    14175,
+                    19511,
+                    25975,
+                    33695,
+                    42811
+                ],
                 order: 3,
                 backgroundColor: colors.secondary,
                 fill: true,
-            },
+            }
         ],
     };
 
@@ -217,23 +217,16 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
             scales: {
                 y: {
                     stacked: true,
-                    grid: {
-                        display: false
-                    },
                     ticks: {
-                        display: false
-                    },
-                    border: {
-                        display: false,
+                        callback: currencyFormat,
                     },
                 },
                 x: {
                     stacked: true,
-                    border: {
-                        display: false
-                    },
                     ticks: {
-                        display: false
+                        callback: function (value, index, ticks) {
+                            return value + 1;
+                        }
                     },
                     grid: {
                         display: false

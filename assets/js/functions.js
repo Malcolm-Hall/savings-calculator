@@ -273,3 +273,8 @@ window.roundTo = function (num, decimals = 5) {
     };
     return +(Math.round(num + `e+${decimals}`) + `e-${decimals}`);
 }
+
+
+window.currencyFormat = function (num) {
+    return 'R ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}

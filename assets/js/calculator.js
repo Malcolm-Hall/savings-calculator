@@ -178,14 +178,6 @@ function showResult(result, principal) {
             annualStartBalance = undefined;
         }
     });
-    const years = Math.ceil(result.length / 12);
-    let chartLegendHtml = '';
-    for (let i = 0; i <= years / 5; i++) {
-        chartLegendHtml += `<p class="result-text result-text--small">${i * 5} yr</p>`;
-    }
-    if (years % 5 !== 0) {
-        chartLegendHtml += `<p class="result-text result-text--small">${years} yr</p>`;
-    }
     annualResults.forEach((r, index) => {
         annualResultsHtml += `<tr>
             <td class="text-center">${index + 1}</td>
@@ -196,8 +188,8 @@ function showResult(result, principal) {
     </tr>`;
         chartData[0].push((index + 1));
         chartData[1].push(roundTo(principal, 0));
-        chartData[2].push(roundTo(r.totalInterest, 0));
-        chartData[3].push(roundTo(r.totalContributions, 0));
+        chartData[2].push(roundTo(r.totalContributions, 0));
+        chartData[3].push(roundTo(r.totalInterest, 0));
     });
     const fv = result[result.length - 1].endBalance;
     const totalInterest = result[result.length - 1].totalInterest;
@@ -206,8 +198,7 @@ function showResult(result, principal) {
     const contributionPercent = totalContributions / fv * 100;
     const principalPercent = principal / fv * 100;
 
-    changeChartData([roundTo(interestPercent, 0), roundTo(principalPercent, 0), roundTo(contributionPercent, 0)], chartData);
-    _('chart__legend').innerHTML = chartLegendHtml;
+    changeChartData([roundTo(principalPercent, 0), roundTo(contributionPercent, 0), roundTo(interestPercent, 0)], chartData);
     output.val(annualResultsHtml).set('annual-results');
     output.val(monthlyResultsHtml).set('monthly-results');
 }
@@ -307,10 +298,6 @@ function findAmortizationParam(
 
     input.error([], 'Please check the input values are reasonable', true);
     return 0;
-}
-
-function currencyFormat(num) {
-    return 'R ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
 function calculateFV(
