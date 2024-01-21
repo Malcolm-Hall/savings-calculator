@@ -330,14 +330,22 @@ function findMoneyParam(
     resultGetter
 ) {
     const v0 = resultGetter(0.00);
-    const v1 = resultGetter(0.01);
-    const v2 = resultGetter(0.02);
-
     if (v0 <= 1) return 0;
+    const v1 = resultGetter(0.01);
     if (v1 <= 1) return 0.01;
+    const v2 = resultGetter(0.02);
     if (v2 <= 1) return 0.02;
 
-    return findAmortizationParam(initialIncrement, resultGetter);
+
+    const foundV = roundDown2Dp(findAmortizationParam(initialIncrement, resultGetter));
+
+    const fv = resultGetter(foundV);
+    if (fv <= 1) return foundV;
+    return foundV + 0.01;
+}
+
+function roundDown2Dp(num) {
+    return Math.floor(num * 100) / 100;
 }
 
 function findInvestmentTerm(resultGetter) {
