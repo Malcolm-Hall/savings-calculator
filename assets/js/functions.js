@@ -30,6 +30,11 @@ window.toggleRelatedInputs = function (element, id, action) {
     });
 }
 
+window.toggleCalculationType = function (element, id, action) {
+    toggleRelatedInputs(element, id, action);
+    calculate();
+}
+
 window.forceNumeric = function (input) {
     input.value = input.value
         .replace(/[^0-9.]/g, '')
