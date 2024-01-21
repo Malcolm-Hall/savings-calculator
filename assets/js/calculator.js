@@ -1,41 +1,46 @@
+const investmentTermError = 'The investment term must be greater than 0.';
+const savingsGoalError = 'Your savings goal must be greater than 0.';
+const lumpSumError = 'The lump sum amount must be less than your savings goal.';
+const contributionError = 'The monthly contribution must be less than your savings goal';
+
 function calculate() {
     const calcType = input.get('loan_type').index().val();
 
     const pv = input.get('starting_amount').nonNegative().val();
-    const years = input.get('after').positive().val();
-    const rate = input.get('return_rate').positive().val();
+    const years = input.get('after').positive(investmentTermError).val();
+    const rate = input.get('return_rate').nonNegative().val();
     const compound = input.get('compound').index().val();
     const contribution = input.get('additional_contribution').nonNegative().val();
     const annualIncreaseRate = input.get('annual_increase').nonNegative().val();
 
-    const fv2 = input.get('your_target_2').positive().val();
-    const pv2 = input.get('starting_amount_2').nonNegative().lt('your_target_2').val();
-    const years2 = input.get('after_2').positive().val();
-    const rate2 = input.get('return_rate_2').positive().val();
+    const fv2 = input.get('your_target_2').positive(savingsGoalError).val();
+    const pv2 = input.get('starting_amount_2').nonNegative().lt('your_target_2', lumpSumError).val();
+    const years2 = input.get('after_2').positive(investmentTermError).val();
+    const rate2 = input.get('return_rate_2').nonNegative().val();
     const compound2 = input.get('compound_2').index().val();
     const annualIncreaseRate2 = input.get('annual_increase_2').nonNegative().val();
 
 
-    const fv3 = input.get('your_target_3').positive().val();
-    const pv3 = input.get('starting_amount_3').nonNegative().lt('your_target_3').val();
-    const years3 = input.get('after_3').positive().val();
+    const fv3 = input.get('your_target_3').positive(savingsGoalError).val();
+    const pv3 = input.get('starting_amount_3').nonNegative().lt('your_target_3', lumpSumError).val();
+    const years3 = input.get('after_3').positive(investmentTermError).val();
     const compound3 = input.get('compound_3').index().val();
-    const contribution3 = input.get('additional_contribution_3').nonNegative().lt('your_target_3').val();
+    const contribution3 = input.get('additional_contribution_3').nonNegative().lt('your_target_3', contributionError).val();
     const annualIncreaseRate3 = input.get('annual_increase_3').nonNegative().val();
 
 
-    const fv4 = input.get('your_target_4').positive().val();
-    const years4 = input.get('after_4').positive().val();
-    const rate4 = input.get('return_rate_4').positive().val();
+    const fv4 = input.get('your_target_4').positive(savingsGoalError).val();
+    const years4 = input.get('after_4').positive(investmentTermError).val();
+    const rate4 = input.get('return_rate_4').nonNegative().val();
     const compound4 = input.get('compound_4').index().val();
-    const contribution4 = input.get('additional_contribution_4').nonNegative().lt('your_target_4').val();
+    const contribution4 = input.get('additional_contribution_4').nonNegative().lt('your_target_4', contributionError).val();
     const annualIncreaseRate4 = input.get('annual_increase_4').nonNegative().val();
 
-    const fv5 = input.get('your_target_5').positive().val();
-    const pv5 = input.get('starting_amount_5').nonNegative().lt('your_target_5').val();
-    const rate5 = input.get('return_rate_5').positive().val();
+    const fv5 = input.get('your_target_5').positive(savingsGoalError).val();
+    const pv5 = input.get('starting_amount_5').nonNegative().lt('your_target_5', lumpSumError).val();
+    const rate5 = input.get('return_rate_5').nonNegative().val();
     const compound5 = input.get('compound_5').index().val();
-    const contribution5 = input.get('additional_contribution_5').nonNegative().lt('your_target_5').val();
+    const contribution5 = input.get('additional_contribution_5').nonNegative().lt('your_target_5', contributionError).val();
     const annualIncreaseRate5 = input.get('annual_increase_5').nonNegative().val();
 
 
@@ -78,14 +83,15 @@ function calculate() {
         // Interest Rate
         const { totalContribution } = calculateFV(pv3, years3, 0, getCompound(compound3), contribution3, annualIncreaseRate3);
         const totalInvested = pv3 + totalContribution;
+        let rate3;
         if (totalInvested > fv3) {
-            return input.error(['starting_amount_3', 'additional_contribution_3'], 'Total invested cannot be greater than your savings goal', true);
+            rate3 = 0;
+        } else {
+            rate3 = findAmortizationParam(1, (r) => {
+                const amortization = calculateFV(pv3, years3, r, getCompound(compound3), contribution3, annualIncreaseRate3);
+                return fv3 / amortization.endBalance;
+            });
         }
-
-        const rate3 = findAmortizationParam(1, (r) => {
-            const amortization = calculateFV(pv3, years3, r, getCompound(compound3), contribution3, annualIncreaseRate3);
-            return fv3 / amortization.endBalance;
-        });
 
         const result3 = calculateAmortization(pv3, years3, rate3, getCompound(compound3), contribution3, annualIncreaseRate3);
         const totalInterest = result3[result3.length - 1].totalInterest;
@@ -121,14 +127,25 @@ function calculate() {
     else if (calcType === 4) {
         // Investment Term
         const totalInvested = pv5 + contribution5;
-        if (totalInvested > fv5) {
-            return input.error(['starting_amount_5', 'additional_contribution_5'], 'Total invested cannot be greater than your savings goal', true);
-        }
+        let years5;
+        if (totalInvested >= fv5) {
+            years5 = 0;
+        } else {
+            let yFound = false;
+            [1, 2, 3, 4].forEach((m) => {
+                if (yFound) return;
+                years5 = m / 12;
+                const { endBalance } = calculateFV(pv5, years5, rate5, getCompound(compound5), contribution5, annualIncreaseRate5);
+                yFound = endBalance >= fv5;
+            })
 
-        const years5 = findAmortizationParam(1, (y) => {
-            const amortization = calculateFV(pv5, y, rate5, getCompound(compound5), contribution5, annualIncreaseRate5);
-            return fv5 / amortization.endBalance;
-        });
+            if (!yFound) {
+                years5 = findAmortizationParam(1, (y) => {
+                    const amortization = calculateFV(pv5, y, rate5, getCompound(compound5), contribution5, annualIncreaseRate5);
+                    return fv5 / amortization.endBalance;
+                });
+            }
+        }
 
         const result5 = calculateAmortization(pv5, years5, rate5, getCompound(compound5), contribution5, annualIncreaseRate5);
         const totalInterest = result5[result5.length - 1].totalInterest;
@@ -230,7 +247,7 @@ function calculateAmortization(
     initialContribution = 0,
     annualIncreaseRate = 0,
 ) {
-    const months = years * 12;
+    const months = Math.max(years * 12, 1);
     const cc = compound / 12
     const interest = rate / 100 / compound;
     const ratePayB = Math.pow(1 + interest, cc) - 1;
