@@ -275,6 +275,6 @@ window.roundTo = function (num, decimals = 5) {
 }
 
 
-window.currencyFormat = function (num) {
-    return 'R ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+window.currencyFormat = function (num, space = '&nbsp') {
+    return `R${space}` + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
