@@ -218,7 +218,7 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
                 y: {
                     stacked: true,
                     ticks: {
-                        callback: currencyFormat,
+                        callback: (it) => currencyFormat(it, ' '),
                     },
                 },
                 x: {
