@@ -13,8 +13,7 @@ This free savings calculator considers the initial and ending balances, interest
 
 ## Usage
 
-* Add the shortcode `[mh_savings_calculator]` to your page, post or sidebar.
-* Or add the following code: `<?php display_mh_savings_calculator(); ?>` to your template where you would like the Savings Calculator to appear.
+* Add the shortcode `[mh_savings_calculator]` to your page, post or sidebar
 
 ## Libraries in Use
 
