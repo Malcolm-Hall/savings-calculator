@@ -21,6 +21,10 @@
         page-break-before: avoid !important;
     }
 
+    #chartLoan {
+        height: 375px !important;
+    }
+
     .table-cell--age {
         gap: 0 !important;
         flex-wrap: nowrap !important;
