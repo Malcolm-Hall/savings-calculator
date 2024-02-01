@@ -31,7 +31,7 @@ const colors = {
 const tooltip = {
     enabled: false,
     external: function (context) {
-        let tooltipEl = _('chartjs-tooltip');
+        let tooltipEl = document.getElementById('chartjs-tooltip');
 
         // Create element on first render
         if (!tooltipEl) {
@@ -104,7 +104,7 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
         },
     ];
 
-    const pieChart = new Chart(_('chartDonutBig'), {
+    const pieChart = new Chart(document.getElementById('chartDonutBig'), {
         type: 'pie',
         data: {
             datasets: pieChartData,
@@ -199,7 +199,7 @@ import("./lib/chartjs/chart.js").then(({ Chart, registerables }) => {
         ],
     };
 
-    const barChart = new Chart(_('chartLoan'), {
+    const barChart = new Chart(document.getElementById('chartLoan'), {
         type: 'bar',
         data: barChartData,
         options: {

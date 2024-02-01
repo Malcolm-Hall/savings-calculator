@@ -6,7 +6,7 @@ window.toggleRelatedInputs = function (element, id, action) {
     id = id ?? element.id;
     let value = element.value;
     if (element.type == 'select-one') value = element.selectedIndex;
-    $$('.' + id).forEach(element => {
+    document.querySelectorAll('.' + id).forEach(element => {
         if (action === "disabled") {
             element.classList.remove("disabled");
         } else if (action === "finding") {
@@ -18,7 +18,7 @@ window.toggleRelatedInputs = function (element, id, action) {
             element.classList.add("related-item-hidden");
         }
     });
-    $$('.related-to-' + id + '-' + value)?.forEach(element => {
+    document.querySelectorAll('.related-to-' + id + '-' + value)?.forEach(element => {
         if (action === "disabled") {
             element.classList.add("disabled");
         } else if (action === "finding") {
@@ -52,14 +52,14 @@ window.output = {
         return this;
     },
     set: function (elementId) {
-        _(elementId).innerHTML = this.value;
+        document.getElementById(elementId).innerHTML = this.value;
         return this;
     }
 };
 
 window.input = {
-    box: $('#error-box'),
-    list: $('#error-list'),
+    box: document.querySelector('#error-box'),
+    list: document.querySelector('#error-list'),
     value: null,
     elementId: null,
     shown: false,
@@ -68,20 +68,20 @@ window.input = {
     reset: function () {
         this.shown = false;
         this.box.classList.remove('calculator-result--error-active');
-        $$('.input-field--error')?.forEach(el => el.classList.remove('input-field--error'))
-        $$('.calculator-result:not(.calculator-result--error)').forEach(el => el.classList.remove('calculator-result--hidden'))
+        document.querySelectorAll('.input-field--error')?.forEach(el => el.classList.remove('input-field--error'))
+        document.querySelectorAll('.calculator-result:not(.calculator-result--error)').forEach(el => el.classList.remove('calculator-result--hidden'))
     },
     error: function (inputId, message = `Incorrect value for "${inputId}"`, last = false) {
         if (this.silent) return;
         if (this.processed) this.reset();
         if (!Array.isArray(inputId)) inputId = [inputId];
-        for (const inputIdItem of inputId) _(inputIdItem).parentNode.classList.add('input-field--error');
+        for (const inputIdItem of inputId) document.getElementById(inputIdItem).parentNode.classList.add('input-field--error');
         if (!this.shown) {
             this.processed = false;
             this.shown = true;
             this.list.innerHTML = '';
             this.box.classList.add('calculator-result--error-active');
-            $$('.calculator-result:not(.calculator-result--error)').forEach(el => el.classList.add('calculator-result--hidden'))
+            document.querySelectorAll('.calculator-result:not(.calculator-result--error)').forEach(el => el.classList.add('calculator-result--hidden'))
         }
         const element = document.createElement('p');
         element.classList.add('calculator-error__item');
@@ -97,7 +97,7 @@ window.input = {
     },
     get: function (elementId) {
         this.elementId = elementId;
-        let element = _(elementId);
+        let element = document.getElementById(elementId);
         this.silent = false;
         if (element == null) {
             this.value = null;
@@ -110,11 +110,11 @@ window.input = {
         return this;
     },
     index: function () {
-        this.value = _(this.elementId).selectedIndex;
+        this.value = document.getElementById(this.elementId).selectedIndex;
         return this;
     },
     checked: function (elementId) {
-        this.value = _(this.elementId).checked;
+        this.value = document.getElementById(this.elementId).checked;
         return this;
     },
     split: function (separator) {
@@ -135,10 +135,10 @@ window.input = {
     },
     gt: function (compare = 0, errorText = `The ${this.elementId} must be greater than ${compare}.`) {
         if (this.value instanceof Date) {
-            compare = compare instanceof Date ? compare : new Date(_(compare).value);
+            compare = compare instanceof Date ? compare : new Date(document.getElementById(compare).value);
             if (this.value.getTime() <= compare.getTime()) this.error(this.elementId, errorText);
         } else {
-            compare = isNaN(compare) ? Number(_(compare).value) : compare;
+            compare = isNaN(compare) ? Number(document.getElementById(compare).value) : compare;
             if (this.value === '' || isNaN(Number(this.value)))
                 this.error(this.elementId, `The ${this.elementId} must be a number.`);
             else
@@ -148,10 +148,10 @@ window.input = {
     },
     gte: function (compare = 0, errorText = `The ${this.elementId} must be greater than or equal to ${compare}.`) {
         if (this.value instanceof Date) {
-            compare = compare instanceof Date ? compare : new Date(_(compare).value);
+            compare = compare instanceof Date ? compare : new Date(document.getElementById(compare).value);
             if (this.value.getTime() < compare.getTime()) this.error(this.elementId, errorText);
         } else {
-            compare = isNaN(compare) ? Number(_(compare).value) : compare;
+            compare = isNaN(compare) ? Number(document.getElementById(compare).value) : compare;
             if (this.value === '' || isNaN(Number(this.value)))
                 this.error(this.elementId, `The ${this.elementId} must be a number.`);
             else
@@ -161,10 +161,10 @@ window.input = {
     },
     lt: function (compare = 0, errorText = `The ${this.elementId} must be less than ${compare}.`) {
         if (this.value instanceof Date) {
-            compare = compare instanceof Date ? compare : new Date(_(compare).value);
+            compare = compare instanceof Date ? compare : new Date(document.getElementById(compare).value);
             if (this.value.getTime() >= compare.getTime()) this.error(this.elementId, errorText);
         } else {
-            compare = isNaN(compare) ? Number(_(compare).value) : compare;
+            compare = isNaN(compare) ? Number(document.getElementById(compare).value) : compare;
             if (this.value === '' || isNaN(Number(this.value)))
                 this.error(this.elementId, `The ${this.elementId} must be a number.`);
             else
@@ -174,10 +174,10 @@ window.input = {
     },
     lte: function (compare = 0, errorText = `The ${this.elementId} must be less than or equal to ${compare}.`) {
         if (this.value instanceof Date) {
-            compare = compare instanceof Date ? compare : new Date(_(compare).value);
+            compare = compare instanceof Date ? compare : new Date(document.getElementById(compare).value);
             if (this.value.getTime() > compare.getTime()) this.error(this.elementId, errorText);
         } else {
-            compare = isNaN(compare) ? Number(_(compare).value) : compare;
+            compare = isNaN(compare) ? Number(document.getElementById(compare).value) : compare;
             if (this.value === '' || isNaN(Number(this.value)))
                 this.error(this.elementId, `The ${this.elementId} must be a number.`);
             else

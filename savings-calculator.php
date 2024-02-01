@@ -3,7 +3,7 @@
 Plugin Name: Savings Calculator
 Plugin URI: https://malcolm-hall.github.io/savings-calculator/
 Description: This free savings calculator considers the initial and ending balances, interest rate, and investment time when evaluating various investment circumstances.
-Version: 1.0.1
+Version: 1.1.0
 Author: Malcolm Hall
 Author URI: https://github.com/Malcolm-Hall
 License: GPLv2 or later
