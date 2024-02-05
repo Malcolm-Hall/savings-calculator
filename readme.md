@@ -2,8 +2,8 @@
 
 This free savings calculator considers the initial and ending balances, interest rate, and investment time when evaluating various investment circumstances.
 
-![Savings Calculator Input Form](/assets/images/screenshot-1.png "Savings Calculator Input Form")
-![Savings Calculator Calculation Results](/assets/images/screenshot-2.png "Savings Calculator Calculation Results")
+![Savings Calculator Input Form](/assets/images/screenshot-1-new.png "Savings Calculator Input Form")
+![Savings Calculator Calculation Results](/assets/images/screenshot-2-new.png "Savings Calculator Calculation Results")
 
 ## Installation
 
@@ -13,8 +13,7 @@ This free savings calculator considers the initial and ending balances, interest
 
 ## Usage
 
-* Add the shortcode `[mh_savings_calculator]` to your page, post or sidebar.
-* Or add the following code: `<?php display_mh_savings_calculator(); ?>` to your template where you would like the Savings Calculator to appear.
+* Add the shortcode `[mh_savings_calculator]` to your page, post or sidebar
 
 ## Libraries in Use
 
