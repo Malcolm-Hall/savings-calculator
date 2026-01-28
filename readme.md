@@ -1,19 +1,21 @@
 # Savings Calculator Widget for WordPress
 
-This free savings calculator considers the initial and ending balances, interest rate, and investment time when evaluating various investment circumstances.
+This is a free savings calculator widget that can be embedded in wordpress sites.
 
-![Savings Calculator Input Form](/assets/images/screenshot-1-new.png "Savings Calculator Input Form")
-![Savings Calculator Calculation Results](/assets/images/screenshot-2-new.png "Savings Calculator Calculation Results")
+View the live site at https://malcolm-hall.github.io/savings-calculator
+
+![Savings Calculator Input Form](/assets/images/input-form.png "Savings Calculator Input Form")
+![Savings Calculator Calculation Results](/assets/images/output-results.png "Savings Calculator Calculation Results")
 
 ## Installation
 
-1. [Download](https://github.com/ashen-coder/savings-calculator) the ZIP file of this repository.
+1. [Download](https://github.com/malcolm-hall/savings-calculator) the ZIP file of this repository.
 2. [Install](https://wordpress.com/support/plugins/install-a-plugin/#install-a-plugin-with-a-zip-file) the plugin into WordPress.
-3. Activate the [Savings Calculator](https://ashen-coder.github.io/savings-calculator/ "Savings Calculator Homepage") plugin through the "Plugins" menu in WordPress.
+3. Activate the [Savings Calculator](https://malcolm-hall.github.io/savings-calculator/ "Savings Calculator Homepage") plugin through the "Plugins" menu in WordPress.
 
 ## Usage
 
-* Add the shortcode `[ac_savings_calculator]` to your page, post or sidebar
+- Add the shortcode `[ac_savings_calculator]` to your page, post or sidebar
 
 ## Calculation Types
 

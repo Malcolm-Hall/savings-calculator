@@ -1,13 +1,13 @@
 <?php
 /*
 Plugin Name: Savings Calculator
-Plugin URI: https://ashen-coder.github.io/savings-calculator/
+Plugin URI: https://malcolm-hall.github.io/savings-calculator/
 Description: This free savings calculator considers the initial and ending balances, interest rate, and investment time when evaluating various investment circumstances.
 Version: 1.0.1
-Author: Ashen Coder
-Author URI: https://github.com/ashen-coder
+Author: Malcolm Hall
+Author URI: https://github.com/malcolm-hall
 License: GPLv2 or later
-Update URI: https://github.com/ashen-coder/savings-calculator
+Update URI: https://github.com/malcolm-hall/savings-calculator
 */
 
 if (!defined('ABSPATH')) exit;
